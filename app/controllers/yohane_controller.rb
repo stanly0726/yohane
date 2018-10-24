@@ -43,10 +43,10 @@ def webhook
  	#記錄對話
  	save_to_received(channel_id, received_text)
  	save_to_reply(channel_id, reply_text)
-	#傳送訊息到line
- 	response = reply_to_line(reply_text, reply_token)
- 	#傳送圖片到line
- 	response = reply_image_to_line
+	#傳送圖片到line
+ 	reply_image_to_line(reply_token)
+ 	#傳送訊息到line
+ 	reply_to_line(reply_text, reply_token)
  end
 	#回應200
  	head :ok
@@ -156,6 +156,7 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	message = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
+	#if message[0..23] == "https://i.imgur.com/"
 	return message unless message.nil?
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 	KeywordMapping.where(keyword: received_text).last&.message
@@ -308,12 +309,17 @@ def wife(received_text)
 	return nil if received_text.nil?
 	'臭DD' if received_text.include?('我婆')	
 end
+def test(reply_token, received_text)
+	if received_text == "test"
+		@previewImageUrl = "https://i.imgur.com/D5beG7h.jpg"
+		@originalContentUrl = "https://i.imgur.com/D5beG7h.jpg"
+	end
+end
 	#傳送圖片到line
-def reply_image_to_line
+def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil?
 	return nil if @originalContentUrl.nil?
-	
-	reply_token = event['replyToken'] 
+
 	
 	message = {
   		type: "image",

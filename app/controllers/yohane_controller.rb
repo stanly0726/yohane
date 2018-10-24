@@ -177,9 +177,11 @@ def keyword_reply_include(channel_id, received_text)
 	reply = nil
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
+	unless reply.nil?
 	if reply[0..19] = "https://i.imgur.com/"
 		@previewImageUrl, @originalContentUrl = reply, reply
 	end
+end
 end
 	reply
 end

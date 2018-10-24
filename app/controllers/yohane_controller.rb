@@ -379,7 +379,8 @@ def reply_to_line(reply_text, reply_token)
 	if reply_text[0..19] == "https://i.imgur.com/"
 		@previewImageUrl = reply_text
 		@originalContentUrl = reply_text
-	end
+	return
+else
  	#設定回復訊息
 	message = {
 		type: 'text',
@@ -388,6 +389,7 @@ def reply_to_line(reply_text, reply_token)
 
 	#傳送訊息
 	line.reply_message(reply_token, message)
+end
 end
 
 	#line Bot API物件初始化

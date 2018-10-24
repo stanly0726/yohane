@@ -1,0 +1,2 @@
+class KeywordSwitch < ApplicationRecord
+end

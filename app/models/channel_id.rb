@@ -1,0 +1,2 @@
+class ChannelId < ApplicationRecord
+end

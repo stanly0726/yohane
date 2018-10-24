@@ -1,0 +1,2 @@
+class KeywordMappingInclude < ApplicationRecord
+end

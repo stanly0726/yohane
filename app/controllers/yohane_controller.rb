@@ -156,14 +156,16 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
-	if reply[0..19] = "https://i.imgur.com/"
-		@previewImageUrl, @originalContentUrl = reply, reply
-	else
-	return reply unless reply.nil?
-	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
-	KeywordMapping.where(keyword: received_text).last&.message
+	unless reply.nil?
+		if reply[0..19] = "https://i.imgur.com/"
+			@previewImageUrl, @originalContentUrl = reply, reply
+		else
+			return reply
+		end
 	end
-end
+	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
+		KeywordMapping.where(keyword: received_text).last&.message
+	end
 end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)

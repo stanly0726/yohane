@@ -160,6 +160,9 @@ def keyword_reply(channel_id, received_text)
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 		KeywordMapping.where(keyword: received_text).last&.message
 	end
+	p "====================="
+	p reply
+	p "====================="
 end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)

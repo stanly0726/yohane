@@ -16,37 +16,88 @@ def webhook
 	save_to_channel_id(channel_id)
 	#加入群組
 	reply_text = join(event)
+	p '1================'
+	p reply_text
+	p '================='
 	#學說話
 	reply_text = learn(channel_id, received_text) if reply_text.nil?
+	p '2================'
+	p reply_text
+	p '================='
 	#學說或(include
 	reply_text = learn_include(channel_id, received_text) if reply_text.nil?
+	p '3================'
+	p reply_text
+	p '================='
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
+	p '4================'
+	p reply_text
+	p '================='
 	#忘記說話(include
 	reply_text = frogot_include(channel_id, received_text) if reply_text.nil?
+	p '5================'
+	p reply_text
+	p '================='
 	#關鍵字回復
  	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
+ 	p '6================'
+	p reply_text
+	p '================='
  	#關鍵字開關
 	reply_text = switch(channel_id, received_text) if reply_text.nil?
+	p '7================'
+	p reply_text
+	p '================='
 	#nhentai
 	reply_text = nhentai(received_text) if reply_text.nil?
+	p '8================'
+	p reply_text
+	p '================='
  	#抽
  	reply_text = draw(received_text) if reply_text.nil?
+ 	p '9================'
+	p reply_text
+	p '================='
  	#查指令
  	reply_text = command(received_text) if reply_text.nil?
+ 	p '10==============='
+	p reply_text
+	p '================='
  	#查關鍵字
  	reply_text = keywords(channel_id, received_text) if reply_text.nil?
+ 	p '11==============='
+	p reply_text
+	p '================='
  	#查關鍵字(include)
  	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
+ 	p '12==============='
+	p reply_text
+	p '================='
  	#關鍵字回復(include
  	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
+ 	p '13==============='
+	p reply_text
+	p '================='
  	#記錄對話
  	save_to_received(channel_id, received_text)
+ 	p '14==============='
+	p reply_text
+	p '================='
  	save_to_reply(channel_id, reply_text)
+ 	p '15==============='
+	p reply_text
+	p '================='
 	#傳送訊息到line
  	reply_to_line(reply_text, reply_token)
+ 	p '16==============='
+	p reply_text
+	p '================='
 	#傳送圖片到line
  	reply_image_to_line(reply_token)
+ 	p '17==============='
+	p reply_text
+	p '================='
  end
 	#回應200
  	head :ok
@@ -160,9 +211,6 @@ def keyword_reply(channel_id, received_text)
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 		KeywordMapping.where(keyword: received_text).last&.message
 	end
-	p "====================="
-	p reply
-	p "====================="
 end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)

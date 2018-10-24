@@ -43,10 +43,10 @@ def webhook
  	#記錄對話
  	save_to_received(channel_id, received_text)
  	save_to_reply(channel_id, reply_text)
+	#傳送訊息到line
+ 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
  	reply_image_to_line(reply_token)
- 	#傳送訊息到line
- 	reply_to_line(reply_text, reply_token)
  end
 	#回應200
  	head :ok
@@ -156,17 +156,7 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
-	p "1======================"
-	p reply
-	p "======================"
-	unless reply.nil?
-		if reply[0..19] = "https://i.imgur.com/"
-			@previewImageUrl =  reply
-			@originalContentUrl = reply
-		else
-			return reply
-		end
-	end
+	return reply unless reply.nil?
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 		KeywordMapping.where(keyword: received_text).last&.message
 	end
@@ -177,13 +167,8 @@ def keyword_reply_include(channel_id, received_text)
 	reply = nil
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
-	unless reply.nil?
-	if reply[0..19] = "https://i.imgur.com/"
-		@previewImageUrl, @originalContentUrl = reply, reply
-	end
 end
-end
-	reply
+	return reply
 end
 	#關鍵字開關
 def switch(channel_id, received_text)
@@ -328,11 +313,6 @@ def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil?
 	return nil if @originalContentUrl.nil?
 
-	p "======================"
-	p @originalContentUrl
-	p "======================"
-	p @previewImageUrl
-	p "======================"
 	message = {
   		type: "image",
   		originalContentUrl: @originalContentUrl,
@@ -345,6 +325,10 @@ end
 	#傳送訊息到line
 def reply_to_line(reply_text, reply_token)
 	return nil if reply_text.nil? 
+	if reply_text[0..19] = "https://i.imgur.com/"
+		@previewImageUrl = reply_text
+		@originalContentUrl = reply_text
+	end
  	#設定回復訊息
 	message = {
 		type: 'text',

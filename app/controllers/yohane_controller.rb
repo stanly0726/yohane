@@ -156,9 +156,13 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
+	p "1======================"
+	p reply
+	p "======================"
 	unless reply.nil?
 		if reply[0..19] = "https://i.imgur.com/"
-			@previewImageUrl, @originalContentUrl = reply, reply
+			@previewImageUrl =  reply
+			@originalContentUrl = reply
 		else
 			return reply
 		end
@@ -322,7 +326,11 @@ def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil?
 	return nil if @originalContentUrl.nil?
 
-	
+	p "======================"
+	p @originalContentUrl
+	p "======================"
+	p previewImageUrl
+	p "======================"
 	message = {
   		type: "image",
   		originalContentUrl: @originalContentUrl,

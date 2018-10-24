@@ -328,7 +328,7 @@ end
 	#傳送訊息到line
 def reply_to_line(reply_text, reply_token)
 	return nil if reply_text.nil? 
-	if reply_text[0..19] = "https://i.imgur.com/"
+	if reply_text[0..19] == "https://i.imgur.com/"
 		@previewImageUrl = reply_text
 		@originalContentUrl = reply_text
 	end

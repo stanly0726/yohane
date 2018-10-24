@@ -331,7 +331,7 @@ def reply_image_to_line(reply_token)
 	p "======================"
 	p @originalContentUrl
 	p "======================"
-	p previewImageUrl
+	p @previewImageUrl
 	p "======================"
 	message = {
   		type: "image",

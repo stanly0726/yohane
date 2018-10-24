@@ -40,12 +40,9 @@ def webhook
  	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
  	#關鍵字回復(include
  	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
-
- 	
  	#記錄對話
  	save_to_received(channel_id, received_text)
  	save_to_reply(channel_id, reply_text)
- 	test(reply_token, received_text)
 	#傳送圖片到line
  	reply_image_to_line(reply_token)
  	#傳送訊息到line
@@ -158,12 +155,15 @@ def forgot(channel_id, received_text)
 end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
-	message = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
-	#if message[0..23] == "https://i.imgur.com/"
-	return message unless message.nil?
+	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
+	if reply[0..23] == "https://i.imgur.com/"
+		@previewImageUrl, @originalContentUrl = reply, reply
+	else
+	return reply unless reply.nil?
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 	KeywordMapping.where(keyword: received_text).last&.message
 	end
+end
 end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)
@@ -171,7 +171,10 @@ def keyword_reply_include(channel_id, received_text)
 	reply = nil
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
+	if reply[0..23] == "https://i.imgur.com/"
+		@previewImageUrl, @originalContentUrl = reply, reply
 	end
+end
 	reply
 end
 	#關鍵字開關
@@ -311,12 +314,6 @@ end
 def wife(received_text)
 	return nil if received_text.nil?
 	'臭DD' if received_text.include?('我婆')	
-end
-def test(reply_token, received_text)
-	if received_text == "test"
-		@previewImageUrl = "https://i.imgur.com/D5beG7h.jpg"
-		@originalContentUrl = "https://i.imgur.com/D5beG7h.jpg"
-	end
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)

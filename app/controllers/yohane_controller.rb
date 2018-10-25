@@ -226,6 +226,7 @@ end
     #抽
 def draw(received_text)
     return nil if received_text.nil?
+    received_text = "抽*1" if received_text =="抽"
     if received_text[0..1] == '抽*'
     number = received_text[2..-1].to_i
     else

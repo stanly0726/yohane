@@ -255,7 +255,7 @@ def draw(received_text)
     times += 1
     end
 
-    arr = Array.new-
+    arr = Array.new
     arr << 'UR：'+ur.to_s unless ur == 0
     arr << 'SSR：'+ssr.to_s unless ssr == 0
     arr << 'SR：'+sr.to_s unless sr == 0

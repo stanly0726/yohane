@@ -77,13 +77,13 @@ end
 def save_to_received(channel_id, received_text)
 	return if received_text.nil?
 	Received.create(channel_id: channel_id, text: received_text)
-	#Received.first.destroy
+	Received.first.destroy
 end
 	#儲存回覆
 def save_to_reply(channel_id, reply_text)
 	return if reply_text.nil?
 	Reply.create(channel_id: channel_id, text: reply_text)
-	#Reply.first.destroy
+	Reply.first.destroy
 end
 	#儲存頻道id
 def save_to_channel_id(channel_id)

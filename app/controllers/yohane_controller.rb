@@ -205,36 +205,35 @@ def keywords(channel_id, received_text)
 		
 		keyword = KeywordMapping.where(channel_id: channel_id).pluck(:keyword).to_a
 		message = KeywordMapping.where(channel_id: channel_id).pluck(:message).to_a
-		p "=================="
-		p keyword
-		p "=================="
-		return "沒有關鍵字喔" if keyword.nil? || message.nil?
+
+		return "沒有關鍵字喔" if keyword == [] || message == []
 		
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s
 		end
-		reply = reply_arr.join("\n\n")
+		reply_arr.join("\n\n")
 	end
 	
-	if reply == ""
-		return "沒有關鍵字喔"
-	else
-		reply
-	end
 end
 	#查關鍵字(include)
 def keywords_include(channel_id, received_text)
 	if received_text == '關鍵字列表*'
-		reply = KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword, :message).to_a.join("\n")
+		
+		keyword = KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).to_a
+		message = KeywordMappingInclude.where(channel_id: channel_id).pluck(:message).to_a
+
+		return "沒有關鍵字喔" if keyword == [] || message == []
+		
+		reply_arr = Array.new
+		number = keyword.size.to_i
+		0.upto(number-1) do |i|
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s
+		end
+		reply_arr.join("\n\n")	
 	end
 
-	if reply == ""
-		return "沒有關鍵字喔"
-	else
-		reply
-	end
 end
 	#抽
 def draw(received_text)

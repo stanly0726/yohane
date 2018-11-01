@@ -168,7 +168,7 @@ def keyword_reply_include(channel_id, received_text)
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 end
-	return reply
+	return reply unless reply == Reply.last.select(:text)
 end
 	#關鍵字開關
 def switch(channel_id, received_text)

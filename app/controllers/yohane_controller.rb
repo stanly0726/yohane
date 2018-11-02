@@ -275,15 +275,7 @@ def draw(received_text)
 	arr << 'R：'+r.to_s unless r == 0
 	arr.join("\n")
 end
-	#蚊子
-def gg(channel_id, received_text)
-	if channel_id == 'Cb960628ca122f3e32a25026f934df039'
-		if received_text == '@曲玟馨-Megaaa爆G蚊子 '
-		@originalContentUrl = 'https://i.imgur.com/Rof1tad.jpg'
-		@previewImageUrl = 'https://i.imgur.com/oRG6IQQ.jpg'
-		end
-	end
-end
+
 	#nhentai
 def nhentai(received_text)
 	return nil if received_text.nil?
@@ -315,11 +307,7 @@ def nhentai(received_text)
 
 	reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
-	#婆
-def wife(received_text)
-	return nil if received_text.nil?
-	'臭DD' if received_text.include?('我婆')   
-end
+
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil?

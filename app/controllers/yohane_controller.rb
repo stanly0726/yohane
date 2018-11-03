@@ -238,7 +238,7 @@ end
 	#抽
 def draw(received_text)
 	return nil if received_text.nil?
-	received_text = "抽*1" if received_text =="抽"
+	received_text = "抽*1" if received_text == "抽"
 	if received_text[0..1] == '抽*'
 	number = received_text[2..-1].to_i
 	else
@@ -307,7 +307,10 @@ def nhentai(received_text)
 
 	reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
+def upload_to_imgur(received_text)
+	
 
+end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil?

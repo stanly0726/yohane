@@ -10,13 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_050414) do
-
-  create_table "channel_ids", force: :cascade do |t|
-    t.string "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2018_11_12_105518) do
 
   create_table "keyword_mapping_includes", force: :cascade do |t|
     t.string "channel_id"
@@ -24,6 +18,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_050414) do
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user_id"
   end
 
   create_table "keyword_mappings", force: :cascade do |t|
@@ -31,8 +26,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_050414) do
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "chennel_id"
     t.string "channel_id"
+    t.string "user_id"
   end
 
   create_table "keyword_switches", force: :cascade do |t|
@@ -43,13 +38,6 @@ ActiveRecord::Schema.define(version: 2018_08_30_050414) do
   end
 
   create_table "receiveds", force: :cascade do |t|
-    t.string "channel_id"
-    t.string "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "receivers", force: :cascade do |t|
     t.string "channel_id"
     t.string "text"
     t.datetime "created_at", null: false

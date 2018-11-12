@@ -17,9 +17,9 @@ def webhook
 	#加入群組
 	reply_text = join(event)
 	#學說話
-	reply_text = learn(channel_id, received_text) if reply_text.nil?
+	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
-	reply_text = learn_include(channel_id, received_text) if reply_text.nil?
+	reply_text = learn_include(channel_id, received_text, event) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
@@ -95,7 +95,7 @@ def get_received_text(event)
 	message['text'] unless message.nil?
 end
 	#學說話
-def learn(channel_id, received_text)
+def learn(channel_id, received_text, event)
 	return nil if received_text.nil?
 	#如果開頭不是 學說話; 就跳出
 	return nil unless received_text[0..3] == '學說話='
@@ -108,15 +108,16 @@ def learn(channel_id, received_text)
 
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
+	user = event['source']['userId']
 
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 
-	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message)
+	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
 	'ok'
 end
 	#學說話(include
-def learn_include(channel_id, received_text)
+def learn_include(channel_id, received_text, event)
 	return nil if received_text.nil?
 	return nil unless received_text[0..4] == '學說話*='
 	received_content = received_text[5..-1]

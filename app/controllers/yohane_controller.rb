@@ -114,18 +114,8 @@ def learn(channel_id, received_text, event)
     config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="}
 	user_id = event['source']['userId']
 	response = client.get_profile(user_id)
-	user = nil
-	case response
-	when Net::HTTPSuccess then
- 	contact = JSON.parse(response.body)
-   	p contact['displayName']
-	p contact['pictureUrl']
-	p contact['statusMessage']
-	user = contact['displayName']
-	else
-  	p "#{response.code} #{response.body}"
-	end
-
+	user = JSON.parse(response.body)['displayName']
+	
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)

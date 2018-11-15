@@ -132,14 +132,14 @@ end
 	#學說話(include
 def learn_include(channel_id, received_text, event)
 	return nil if received_text.nil?
-	received_text = "https://i.imgur.com/"+received_text[-7..-1]+".jpg" if received_text[0..16] == "http://imgur.com/"
-	return nil unless received_text[0..4] == '學說話*='
 	received_content = received_text[5..-1]
+	return nil unless received_text[0..4] == '學說話*='
 	semicolon_index = received_content.index('=')
 	return nil if semicolon_index.nil?
 
 	keyword = received_content[0..semicolon_index-1]
 	message = received_content[semicolon_index+1..-1]
+	message = "https://i.imgur.com/"+message[-7..-1]+".jpg" if message[0..16] == "http://imgur.com/"
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message)
 	'好喔'

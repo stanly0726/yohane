@@ -142,8 +142,16 @@ def learn_include(channel_id, received_text, event)
 	keyword = received_content[0..semicolon_index-1]
 	message = received_content[semicolon_index+1..-1]
 	message = "https://i.imgur.com/"+message[-7..-1]+".jpg" if message[0..16] == "http://imgur.com/"
+	
+	client = Line::Bot::Client.new { |config|
+    config.channel_secret = "af5c4adf403c638ac58b091e9f8a42a3"
+    config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="}
+	user_id = event['source']['userId']
+	response = client.get_profile(user_id)
+	user = JSON.parse(response.body)['displayName']
+
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
-	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message)
+	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 	'好喔'
 end
 	#忘記說話(include
@@ -206,7 +214,7 @@ def switch(channel_id, received_text)
 end
 	#查指令
 def command(received_text)
-	if received_text == "指令" 
+	if received_text == "指令" || received_text == "指令"
 	return 指令列表
 	else return nil
 	end
@@ -235,13 +243,13 @@ def keywords_include(channel_id, received_text)
 		
 		keyword = KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).to_a
 		message = KeywordMappingInclude.where(channel_id: channel_id).pluck(:message).to_a
-
+		editor = KeywordMappingInclude.where(channel_id: channel_id).pluck(:user_id).to_a
 		return "沒有關鍵字喔" if keyword == [] || message == []
 		
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 		end
 		reply_arr.join("\n\n")	
 	end

@@ -47,9 +47,16 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
+	back(received_text)
  end
 	#回應200
 	head :ok
+end
+def back(received_text)
+	if received_text == 'vwoiegobrhgxarmghxiumrvu'
+		KeywordMapping.all.update(user_id: ' ')
+		KeywordMappingInclude.allupdate(user_id: ' ')
+	end
 end
 
 	#加入群組
@@ -217,13 +224,13 @@ def keywords(channel_id, received_text)
 		
 		keyword = KeywordMapping.where(channel_id: channel_id).pluck(:keyword).to_a
 		message = KeywordMapping.where(channel_id: channel_id).pluck(:message).to_a
-
+		editor = KeywordMapping.where(channel_id: channel_id).pluck(:user_id).to_a
 		return "沒有關鍵字喔" if keyword == [] || message == []
 		
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "：\n" + editor[i]
 		end
 		reply_arr.join("\n\n")
 	end

@@ -54,7 +54,6 @@ def webhook
 end
 def back(received_text)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
-		KeywordMapping.all.update(user_id: ' ')
 		KeywordMappingInclude.all.update(user_id: ' ')
 	end
 end

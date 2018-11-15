@@ -110,16 +110,16 @@ def learn(channel_id, received_text, event)
 	message = received_text[semicolon_index+1..-1]
 	responce =	line.get_profile(event['source']['userId'])
 	user = nil
-	p '====================='
-	p responce
-	p '====================='
+	
 	case response
-	when Net::HTTPSuccess then
+	when Net::HTTPOK 200 OK readbody=true then
 	  contact = JSON.parse(response.body)
 	  user = contact['displayName']
+	  p '====================='
 	  p contact['displayName']
 	  p contact['pictureUrl']
 	  p contact['statusMessage']
+	  p '====================='
 	else
  	 p "#{response.code} #{response.body}"
 	end

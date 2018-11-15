@@ -112,7 +112,7 @@ def learn(channel_id, received_text, event)
 	user = nil
 	
 	case response
-	when Net::HTTPOK 200 OK readbody=true then
+	when Net::HTTPOK  then
 	  contact = JSON.parse(response.body)
 	  user = contact['displayName']
 	  p '====================='

@@ -110,7 +110,9 @@ def learn(channel_id, received_text, event)
 	message = received_text[semicolon_index+1..-1]
 	responce =	line.get_profile(event['source']['userId'])
 	user = nil
+	p '====================='
 	p responce
+	p '====================='
 	case response
 	when Net::HTTPSuccess then
 	  contact = JSON.parse(response.body)

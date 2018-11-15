@@ -58,11 +58,8 @@ def back(received_text)
 		KeywordMappingInclude.all.update(user_id: ' ')
 	end
 end
-
-	#加入群組
-def join(event)
-	if event['type'] == 'join'
-	return "指令列表；
+def 指令列表
+"指令列表；
 
 新增關鍵字：學說話=關鍵字=回應
 新增「包含」關鍵字：學說話*=關鍵字=回應
@@ -73,6 +70,11 @@ def join(event)
 查詢關鍵字：關鍵字列表
 查詢「包含」關鍵字：關鍵字列表*
 查詢指令：指令"
+end
+	#加入群組
+def join(event)
+	if event['type'] == 'join'
+	return 指令列表
 	end
 end
 	#頻道ID
@@ -205,17 +207,7 @@ end
 	#查指令
 def command(received_text)
 	if received_text == "指令" 
-	return "指令列表；
-
-新增關鍵字：學說話=關鍵字=回應
-新增「包含」關鍵字：學說話*=關鍵字=回應
-刪除關鍵字：忘記=關鍵字
-刪除「包含」關鍵字：忘記*=關鍵字
-開啟或關閉「使用其他聊天室設定的關鍵字」功能：全域關鍵字=開/關
-抽獎：抽*數量
-查詢關鍵字：關鍵字列表
-查詢「包含」關鍵字：關鍵字列表*
-查詢指令：指令"
+	return 指令列表
 	else return nil
 	end
 end

@@ -110,10 +110,9 @@ def learn(channel_id, received_text, event)
 	message = received_text[semicolon_index+1..-1]
 	user_id = event['source']['userId'].to_s
 	responce =	line.get_profile(user_id)
-	p '====================='
-	p user_id 
-	p responce
-	p '====================='
+ 	p '====================='
+ 	p response.body
+ 	p '====================='
  	contact = JSON.parse(response.body)
  	user = contact['displayName']
   	p '====================='

@@ -132,6 +132,7 @@ end
 	#學說話(include
 def learn_include(channel_id, received_text, event)
 	return nil if received_text.nil?
+	received_text = "https://i.imgur.com/"+received_text[-7..-1]+".jpg" if received_text[0..16] == "http://imgur.com/"
 	return nil unless received_text[0..4] == '學說話*='
 	received_content = received_text[5..-1]
 	semicolon_index = received_content.index('=')

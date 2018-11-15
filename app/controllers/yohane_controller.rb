@@ -109,6 +109,7 @@ def learn(channel_id, received_text, event)
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
 	user =	line.get_profile(event['source']['userId'])
+	p user
 
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 

@@ -108,7 +108,8 @@ def learn(channel_id, received_text, event)
 
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
-	responce =	line.get_profile(event['source']['userId'])
+	user_id = event['source']['userId'].to_s
+	responce =	line.get_profile(user_id)
 
  	contact = JSON.parse(response.body)
  	user = contact['displayName']

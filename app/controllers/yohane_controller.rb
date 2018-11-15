@@ -108,7 +108,7 @@ def learn(channel_id, received_text, event)
 
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
-	user = event['source']['userId']
+	user =	line.get_profile(event['source']['userId'])
 
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 
@@ -169,7 +169,12 @@ def keyword_reply_include(channel_id, received_text)
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 end
-	return reply unless reply == Reply.select(:text).last
+	case reply
+	when reply == Reply.select(:text).last
+	return nil
+	else
+	return reply
+	end
 end
 	#關鍵字開關
 def switch(channel_id, received_text)

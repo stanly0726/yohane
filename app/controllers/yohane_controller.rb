@@ -108,18 +108,23 @@ def learn(channel_id, received_text, event)
 
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
-	user_id = event['source']['userId'].to_s
-	responce =	line.get_profile(user_id)
- 	p '====================='
- 	p response.body.type
- 	p '====================='
+	
+	client = Line::Bot::Client.new { |config|
+    config.channel_secret = "af5c4adf403c638ac58b091e9f8a42a3"
+    config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="}
+	user_id = event['source']['userId']
+	response = client.get_profile(user_id)
+	user = nil
+	case response
+	when Net::HTTPSuccess then
  	contact = JSON.parse(response.body)
- 	user = contact['displayName']
-  	p '====================='
-	p contact['displayName']
+   	p contact['displayName']
 	p contact['pictureUrl']
 	p contact['statusMessage']
-	p'====================='
+	user = contact['displayName']
+	else
+  	p "#{response.code} #{response.body}"
+	end
 
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 

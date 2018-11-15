@@ -230,7 +230,7 @@ def keywords(channel_id, received_text)
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "：\n" + editor[i]
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "：\nBy：" + editor[i]
 		end
 		reply_arr.join("\n\n")
 	end

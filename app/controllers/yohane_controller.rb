@@ -109,20 +109,14 @@ def learn(channel_id, received_text, event)
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
 	responce =	line.get_profile(event['source']['userId'])
-	user = nil
-	
-	case response
-	when Net::HTTPOK  then
-	  contact = JSON.parse(response.body)
-	  user = contact['displayName']
-	  p '====================='
-	  p contact['displayName']
-	  p contact['pictureUrl']
-	  p contact['statusMessage']
-	  p '====================='
-	else
- 	 p "#{response.code} #{response.body}"
-	end
+
+ 	contact = JSON.parse(response.body)
+ 	user = contact['displayName']
+  	p '====================='
+	p contact['displayName']
+	p contact['pictureUrl']
+	p contact['statusMessage']
+	p'====================='
 
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 

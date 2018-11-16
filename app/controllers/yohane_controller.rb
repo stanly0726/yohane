@@ -52,7 +52,7 @@ def webhook
 	#回應200
 	head :ok
 end
-def backdoor(received_text)
+def backdoor(received_text, channel_id)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '====================='
 	p Reply.where(channel_id: channel_id).last.select(text)

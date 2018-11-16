@@ -54,7 +54,7 @@ def webhook
 end
 def backdoor(received_text)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
-	
+	p Reply.select(:text).last
 	end
 end
 

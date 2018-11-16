@@ -47,7 +47,7 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
-	backdoor(received_text)
+	backdoor(received_text, channel_id)
  end
 	#回應200
 	head :ok

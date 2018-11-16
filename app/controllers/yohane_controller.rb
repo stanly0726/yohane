@@ -333,9 +333,7 @@ def upload_to_imgur(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 
 	messageId = event['message']['id']
-p '========================'
-p messageId
-p '========================'
+
 	client = Line::Bot::Client.new { |config|
     config.channel_secret = "af5c4adf403c638ac58b091e9f8a42a3"
     config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="
@@ -343,8 +341,10 @@ p '========================'
 	response = client.get_message_content(messageId)
 
 	tf = Tempfile.open("content")
-	tf.write(response.body)
-
+	tf.force.write(response.body.force_encoding("UTF-8"))
+p '==========================='
+p tf
+p '==========================='
 	 url = URI("https://api.imgur.com/3/image")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true

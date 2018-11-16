@@ -16,6 +16,7 @@ def webhook
 	save_to_channel_id(channel_id)
 	#加入群組
 	reply_text = join(event)
+	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -327,8 +328,37 @@ def nhentai(received_text)
 
 	reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
-def upload_to_imgur(received_text)
-	
+def upload_to_imgur(event)
+	return nil unless event['message']['type'] == 'image'
+	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
+
+	messageId = event['message']['id']
+p '========================'
+p messageId
+p '========================'
+	client = Line::Bot::Client.new { |config|
+    config.channel_secret = "af5c4adf403c638ac58b091e9f8a42a3"
+    config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="
+	}
+	response = client.get_message_content(messageId)
+
+	tf = Tempfile.open("content")
+	tf.write(response.body)
+
+	 url = URI("https://api.imgur.com/3/image")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(url)
+    request["authorization"] = 'Client-ID e0ee93758caf3d2'
+
+    request.set_form_data({"image" => tf})
+    response = http.request(request)
+    json = JSON.parse(response.read_body)
+    begin
+      json['data']['link'].gsub("http:","https:")
+    rescue
+      nil
+    end
 
 end
 	#傳送圖片到line

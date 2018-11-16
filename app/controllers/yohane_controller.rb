@@ -55,7 +55,7 @@ end
 def backdoor(received_text, channel_id)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '====================='
-	p Reply.where(channel_id: channel_id).last.text
+	p 
 	p '====================='
 	end
 end
@@ -196,7 +196,7 @@ def keyword_reply_include(channel_id, received_text)
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 end
 	case reply
-	when reply == Reply.select(:text).last
+	when reply == Reply.where(channel_id: channel_id).last.text
 	return nil
 	else
 	return reply

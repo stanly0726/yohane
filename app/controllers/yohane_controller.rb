@@ -341,7 +341,7 @@ def upload_to_imgur(event)
 	response = client.get_message_content(messageId)
 
 	tf = Tempfile.open("content")
-	tf.force.write(response.body.force_encoding("UTF-8"))
+	tf.write(response.body.force_encoding("UTF-8"))
 p '==========================='
 p tf
 p '==========================='

@@ -55,7 +55,7 @@ end
 def backdoor(received_text, channel_id)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '====================='
-	p Reply.where(channel_id: channel_id).pluck(:text).last
+	p Reply.where(channel_id: channel_id).last.text
 	p '====================='
 	end
 end

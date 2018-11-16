@@ -47,16 +47,17 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
-	back(received_text)
+	backdoor(received_text)
  end
 	#回應200
 	head :ok
 end
-def back(received_text)
+def backdoor(received_text)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
-		KeywordMappingInclude.all.update(user_id: ' ')
+	
 	end
 end
+
 def 指令列表
 "指令列表；
 
@@ -97,7 +98,7 @@ end
 def save_to_channel_id(channel_id)
 	KeywordSwitch.find_or_create_by(channel_id: channel_id)
 end
-	#取得對方說的話
+	#取得收到的訊息
 def get_received_text(event)
 	message = event['message']
 	message['text'] unless message.nil?
@@ -266,9 +267,7 @@ def draw(received_text)
 
 	return nil if number == 0
 
-	if number > 10000
-	number = 10000
-	end
+	number = 10000 if number > 10000
 	
 	times = 0
 	ur = 0

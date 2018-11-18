@@ -61,7 +61,7 @@ response = line.get_message_content(event['message']['id'])
 case response
 when Net::HTTPSuccess then
   tf = Tempfile.open("content")
-  tf.write(response.body)
+  p tf.write(response.body)
 else
   p "#{response.code} #{response.body}"
 end

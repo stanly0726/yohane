@@ -56,14 +56,6 @@ end
 def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
-	response = line.get_message_content(event['message']['id'])
-case response
-when Net::HTTPSuccess then
-  tf = Tempfile.open("content")
-  tf.write(response.body)
-else
-  p "#{response.code} #{response.body}"
-end
 
 end
 
@@ -78,7 +70,8 @@ def 指令列表
 抽獎：抽*數量
 查詢關鍵字：關鍵字列表
 查詢「包含」關鍵字：關鍵字列表*
-查詢指令：指令"
+查詢指令：指令
+用私訊傳圖片，機器人會上傳圖片並回傳網址"
 end
 	#加入群組
 def join(event)
@@ -308,7 +301,7 @@ end
 	#nhentai
 def nhentai(received_text)
 	return nil if received_text.nil?
-	return nil unless received_text[0..7] == 'nhentai;'
+	return nil unless received_text[0..7] == 'nhentai='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword
 	url_encode = URI.encode(url)

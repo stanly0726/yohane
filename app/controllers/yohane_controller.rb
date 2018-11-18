@@ -304,21 +304,21 @@ def nhentai(received_text)
 	return nil unless received_text[0..7] == 'nhentai=' ||received_text[0..10] == 'nhentai 日期=' ||received_text[0..10] == 'nhentai 中文=' 
 	
 	case received_text
-	when[0..7] == 'nhentai='
-	p '1'
+	when received_text[0..7] == 'nhentai='
+	p '=====1====='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
-	when[0..10] == 'nhentai 日期='
-	p '2'
+	when received_text[0..10] == 'nhentai 日期='
+	p '=====2====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword
-	when[0..10] == 'nhentai 中文='
-	p '3'
+	when received_text[0..10] == 'nhentai 中文='
+	p '=====3====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword+' language:chinese&sort=popular'
 	end
 	url_encode = URI.encode(url)
-	p url_encode
+	p '======'url_encode'====='
 	uri = URI(url_encode)
 	res = Net::HTTP.get(uri).to_s 
 

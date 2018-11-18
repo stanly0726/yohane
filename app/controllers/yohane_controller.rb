@@ -348,15 +348,16 @@ def upload_to_imgur(event)
 
     request.set_form_data({"image" => tf})
     response = http.request(request)
-    p '==================='
-    p response
-    p '==================='
+
     json = JSON.parse(response.read_body)
     begin
       json['data']['link'].gsub("http:","https:")
     rescue
       nil
     end
+	p '==================='
+    p json['data']['link'].gsub("http:","https:")
+    p '==================='
 
 end
 	#傳送圖片到line

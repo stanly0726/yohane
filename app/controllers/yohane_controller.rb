@@ -16,7 +16,7 @@ def webhook
 	save_to_channel_id(channel_id)
 	#加入群組
 	reply_text = join(event)
-	reply_text = upload_to_imgur(event) if reply_text.nil?
+	#reply_text = upload_to_imgur(event) if reply_text.nil?
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -48,16 +48,25 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
-	backdoor(received_text, channel_id)
+	backdoor(received_text, channel_id, event)
  end
 	#回應200
 	head :ok
 end
-def backdoor(received_text, channel_id)
+def backdoor(received_text, channel_id, event)
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '====================='
 	p 
 	p '====================='
+
+response = @line.get_message_content(event['message']['id'])
+case response
+when Net::HTTPSuccess then
+  tf = Tempfile.open("content")
+  tf.write(response.body)
+else
+  p "#{response.code} #{response.body}"
+end
 	end
 end
 

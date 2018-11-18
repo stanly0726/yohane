@@ -304,16 +304,18 @@ def nhentai(received_text)
 	return nil unless received_text[0..7] == 'nhentai=' ||received_text[0..10] == 'nhentai 日期=' ||received_text[0..10] == 'nhentai 中文=' 
 	keyword = nil
 	url = nil
-	case received_text
-	when received_text[0..7] == 'nhentai='
+
+	if received_text[0..7] == 'nhentai='
 	p '=====1====='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
-	when received_text[0..10] == 'nhentai 日期='
+	end
+	case received_text[0..10]
+	when 'nhentai 日期='
 	p '=====2====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword
-	when received_text[0..10] == 'nhentai 中文='
+	when 'nhentai 中文='
 	p '=====3====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword+' language:chinese&sort=popular'

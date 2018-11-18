@@ -330,8 +330,11 @@ def nhentai(received_text)
 end
 def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'
+	p '======================='
+	p 'type = image'
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
-
+	p '私訊'
+	p '======================='
 	messageId = event['message']['id']
 
 	client = Line::Bot::Client.new { |config|
@@ -341,7 +344,7 @@ def upload_to_imgur(event)
 	response = client.get_message_content(messageId)
 
 	tf = Tempfile.open("content")
-	#tf.write(response.body.force_encoding("UTF-8"))
+	tf = tf.write(response.body)
 
 	 url = URI("https://api.imgur.com/3/image")
     http = Net::HTTP.new(url.host, url.port)

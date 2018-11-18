@@ -342,7 +342,7 @@ def upload_to_imgur(event)
 	p '==================='
 	p Tempfile.open("content")
 	p '==================='
-	p response
+	p response.body
 	p '==================='
 	#tf = tf.write(response.body.force_encoding("UTF-8"))
 
@@ -354,7 +354,6 @@ def upload_to_imgur(event)
 
     request.set_form_data({"image" => tf})
     response = http.request(request)
-    p '==================='
     p response
     p '==================='
     json = JSON.parse(response.read_body)

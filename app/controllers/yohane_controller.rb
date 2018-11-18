@@ -336,7 +336,7 @@ def upload_to_imgur(event)
 	response = line.get_message_content(messageId)
 
 	tf = Tempfile.open("content")
-	tf = tf.write(response.body.force_encoding)
+	tf = tf.write(response.body.force_encoding("UTF-8"))
 
 	 url = URI("https://api.imgur.com/3/image")
     http = Net::HTTP.new(url.host, url.port)

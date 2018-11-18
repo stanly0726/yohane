@@ -188,7 +188,7 @@ def keyword_reply(channel_id, received_text)
 	if reply.nil? && KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 		reply = KeywordMapping.where(keyword: received_text).last&.message
 	end
-
+	return nil if reply.nil?
 	if reply[0..19] == "https://i.imgur.com/"
 	@previewImageUrl = reply
 	@originalContentUrl = reply
@@ -202,7 +202,7 @@ def keyword_reply_include(channel_id, received_text)
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 	end
-	
+	return nil if reply.nil?
 	if reply[0..19] == "https://i.imgur.com/"
 	@previewImageUrl = reply
 	@originalContentUrl = reply

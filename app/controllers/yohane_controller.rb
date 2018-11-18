@@ -12,6 +12,9 @@ def webhook
 	reply_token = event['replyToken']
 	#取得頻道ID
 	channel_id = get_channel_id(event)
+	p '==================='
+	p channel_id
+	p '==================='
 	#紀錄頻道id
 	save_to_channel_id(channel_id)
 	#加入群組

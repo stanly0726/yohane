@@ -318,7 +318,7 @@ def nhentai(received_text)
 	url = "https://nhentai.net/search/?q="+keyword+' language:chinese&sort=popular'
 	end
 	url_encode = URI.encode(url)
-	p '======'url_encode'====='
+	p '======'+url_encode+'====='
 	uri = URI(url_encode)
 	res = Net::HTTP.get(uri).to_s 
 

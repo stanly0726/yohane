@@ -128,11 +128,8 @@ def learn(channel_id, received_text, event)
 	keyword = received_text[0..semicolon_index-1] 
 	message = received_text[semicolon_index+1..-1]
 	
-	client = Line::Bot::Client.new { |config|
-    config.channel_secret = "af5c4adf403c638ac58b091e9f8a42a3"
-    config.channel_token = "CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU="}
 	user_id = event['source']['userId']
-	response = client.get_profile(user_id)
+	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
 	
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?

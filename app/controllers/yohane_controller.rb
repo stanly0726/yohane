@@ -340,7 +340,9 @@ def upload_to_imgur(event)
 
 	tf = Tempfile.open("content")
 	p '==================='
-	p tf
+	p Tempfile.open("content")
+	p '==================='
+	p response
 	p '==================='
 	#tf = tf.write(response.body.force_encoding("UTF-8"))
 

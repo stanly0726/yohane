@@ -65,7 +65,7 @@ when Net::HTTPSuccess then
 else
   p "#{response.code} #{response.body}"
 end
-	end
+
 end
 
 def 指令列表

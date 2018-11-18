@@ -48,13 +48,14 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
-	backdoor(received_text, channel_id, event)
+	#backdoor(received_text, channel_id, event)
  end
 	#回應200
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
-	if received_text == 'vwoiegobrhgxarmghxiumrvu'
+	if channel_id == ''
+	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '====================='
 	p 
 	p '====================='
@@ -93,6 +94,10 @@ end
 def get_channel_id(event)
 	source = event['source']
 	source['groupId']  ||source['roomId'] ||source['userId']
+	p '==================='
+	p source['userId']
+	p '==================='
+
 end
 	#儲存對話
 def save_to_received(channel_id, received_text)

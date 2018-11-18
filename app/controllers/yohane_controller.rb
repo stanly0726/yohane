@@ -94,10 +94,6 @@ end
 def get_channel_id(event)
 	source = event['source']
 	source['groupId']  ||source['roomId'] ||source['userId']
-	p '==================='
-	p source['userId']
-	p '==================='
-
 end
 	#儲存對話
 def save_to_received(channel_id, received_text)

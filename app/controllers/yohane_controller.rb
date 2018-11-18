@@ -306,22 +306,20 @@ def nhentai(received_text)
 	url = nil
 
 	if received_text[0..7] == 'nhentai='
-	p '=====1====='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
 	end
+
 	case received_text[0..10]
 	when 'nhentai 日期='
-	p '=====2====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword
 	when 'nhentai 中文='
-	p '=====3====='
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword+' language:chinese&sort=popular'
 	end
+	
 	url_encode = URI.encode(url)
-	p '======'+url_encode+'====='
 	uri = URI(url_encode)
 	res = Net::HTTP.get(uri).to_s 
 
@@ -329,14 +327,14 @@ def nhentai(received_text)
 	title_arr = Array.new
 	url_arr = Array.new
 	
-	title_start_index = (0 ... res.length).find_all { |i| res[i,32] == '</noscript><div class="caption">' }
+	title_start_index = (0 ... res.length).find_all { |i| res[i,21] == '<div class="caption">' }
 	title_end_index = (0 ... res.length).find_all { |i| res[i,16] == '</div></a></div>' }
 
 	url_start_index = (0 ... res.length).find_all { |i| res[i,12] == '<a href="/g/' }
 	url_end_index = (0 ... res.length).find_all { |i| res[i,16] == '/" class="cover"' }
 
 	(0..9).each do |i|
-		title_arr << res[title_start_index[i]+32..title_end_index[i]-1] unless title_start_index[i].nil?
+		title_arr << res[title_start_index[i]+21..title_end_index[i]-1] unless title_start_index[i].nil?
 		url_arr << res[url_start_index[i]+12..url_end_index[i]-1] unless url_start_index[i].nil?
 	end
 

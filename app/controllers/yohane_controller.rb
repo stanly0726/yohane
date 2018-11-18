@@ -357,8 +357,11 @@ def upload_to_imgur(event)
     request = Net::HTTP::Post.new(url)
     request["authorization"] = 'Client-ID e0ee93758caf3d2'
 
-    request.set_form_data({"image" => tf, "album" => "O99aa5A"})
+    request.set_form_data({"image" => tf, "album" => "fItD7OI9i3KwnQ5"})
     response = http.request(request)
+    p '=================='
+    p response
+    p '=================='
 
     json = JSON.parse(response.read_body)
     begin

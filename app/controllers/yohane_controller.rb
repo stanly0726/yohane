@@ -196,6 +196,9 @@ def keyword_reply_include(channel_id, received_text)
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 end
+p '======================='
+p Reply.where(channel_id: channel_id).last.text
+p '======================='
 	case reply
 	when reply == Reply.where(channel_id: channel_id).last.text
 	return nil
@@ -342,7 +345,7 @@ def upload_to_imgur(event)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(url)
-    request["authorization"] = 'Client-ID e0ee93758caf3d2'
+    request["authorization"] = 'Client-ID {e0ee93758caf3d2}'
 
     request.set_form_data({"image" => tf})
     response = http.request(request)

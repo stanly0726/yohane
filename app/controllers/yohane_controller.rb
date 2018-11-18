@@ -51,17 +51,14 @@ def webhook
 	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
-	#backdoor(received_text, channel_id, event)
+	backdoor(received_text, channel_id, event)
  end
 	#回應200
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
-	if channel_id == ''
+	if channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
-	p '====================='
-	p 
-	p '====================='
 
 response = @line.get_message_content(event['message']['id'])
 case response

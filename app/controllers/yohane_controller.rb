@@ -54,10 +54,10 @@ def webhook
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
-	if channel_id == 'U693cf83bb807d39abb88e724d8afa002'
+	return if channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
 
-response = @line.get_message_content(event['message']['id'])
+response = line.get_message_content(event['message']['id'])
 case response
 when Net::HTTPSuccess then
   tf = Tempfile.open("content")
@@ -404,7 +404,7 @@ end
 
 	#line Bot API物件初始化
 def line
-	@line ||= Line::Bot::Client.new { |config|
+	Line::Bot::Client.new { |config|
 		config.channel_secret = 'af5c4adf403c638ac58b091e9f8a42a3'
 		config.channel_token = 'CgzCmUYQYCpMBx3s/otuWSi0dBby1OhpguJbXOY/T2SOD87cf0pOqyN4j0z2TELbIFULrzw0ctnVNUuFl47vhqbcuPOzQ2vy6X1RYkGC4zv+V94jMdE02Og9fQkzilUduHHagzkV+C+vghBvG1BRXQdB04t89/1O/w1cDnyilFU=
 	'}

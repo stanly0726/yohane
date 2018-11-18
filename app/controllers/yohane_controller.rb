@@ -302,7 +302,8 @@ end
 def nhentai(received_text)
 	return nil if received_text.nil?
 	return nil unless received_text[0..7] == 'nhentai=' ||received_text[0..10] == 'nhentai 日期=' ||received_text[0..10] == 'nhentai 中文=' 
-	
+	keyword = nil
+	url = nil
 	case received_text
 	when received_text[0..7] == 'nhentai='
 	p '=====1====='

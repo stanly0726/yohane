@@ -44,10 +44,10 @@ def webhook
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
-	#傳送訊息到line
-	reply_to_line(reply_text, reply_token)
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
+	#傳送訊息到line
+	reply_to_line(reply_text, reply_token)
 	#backdoor(received_text, channel_id, event)
  end
 	#回應200
@@ -184,9 +184,21 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
+	
+	if reply[0..19] == "https://i.imgur.com/"
+	@previewImageUrl = reply_text
+	@originalContentUrl = reply_text
+	return
+	end
+	
 	return reply unless reply.nil?
 	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
-		KeywordMapping.where(keyword: received_text).last&.message
+		reply = KeywordMapping.where(keyword: received_text).last&.message
+	end
+	if reply[0..19] == "https://i.imgur.com/"
+	@previewImageUrl = reply_text
+	@originalContentUrl = reply_text
+	return
 	end
 end
 	#關鍵字回復(include
@@ -196,14 +208,10 @@ def keyword_reply_include(channel_id, received_text)
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
 end
-p '======================='
-p Reply.where(channel_id: channel_id).last.text
-p '======================='
-	case reply
-	when reply == Reply.where(channel_id: channel_id).last.text
-	return nil
-	else
-	return reply
+	if reply[0..19] == "https://i.imgur.com/"
+	@previewImageUrl = reply_text
+	@originalContentUrl = reply_text
+	return
 	end
 end
 	#關鍵字開關
@@ -355,9 +363,6 @@ def upload_to_imgur(event)
     rescue
       nil
     end
-	p '==================='
-    p json['data']['link'].gsub("http:","https:")
-    p '==================='
 
 end
 	#傳送圖片到line
@@ -377,11 +382,7 @@ end
 	#傳送訊息到line
 def reply_to_line(reply_text, reply_token)
 	return nil if reply_text.nil? 
-	if reply_text[0..19] == "https://i.imgur.com/"
-		@previewImageUrl = reply_text
-		@originalContentUrl = reply_text
-	return
-else
+
 	#設定回復訊息
 	message = {
 		type: 'text',
@@ -390,7 +391,6 @@ else
 
 	#傳送訊息
 	line.reply_message(reply_token, message)
-end
 end
 
 	#line Bot API物件初始化

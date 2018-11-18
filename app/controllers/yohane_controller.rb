@@ -184,21 +184,15 @@ end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message
-	return nil if reply.nil?
-	if reply[0..19] == "https://i.imgur.com/"
-	@previewImageUrl = reply_text
-	@originalContentUrl = reply_text
-	return
-	end
-	
-	return reply unless reply.nil?
-	if KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
+
+	if reply.nil? && KeywordSwitch.where(channel_id: channel_id).last&.switch == 'on'
 		reply = KeywordMapping.where(keyword: received_text).last&.message
 	end
+
 	if reply[0..19] == "https://i.imgur.com/"
-	@previewImageUrl = reply_text
-	@originalContentUrl = reply_text
-	return
+	@previewImageUrl = reply
+	@originalContentUrl = reply
+	reply = nil
 	end
 end
 	#關鍵字回復(include
@@ -207,13 +201,15 @@ def keyword_reply_include(channel_id, received_text)
 	reply = nil
 	KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).each do |keyword|
 	reply = KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).last&.message if received_text.include?(keyword)
-end
-	return nil if reply.nil?
-	if reply[0..19] == "https://i.imgur.com/"
-	@previewImageUrl = reply_text
-	@originalContentUrl = reply_text
-	return
 	end
+	
+	if reply[0..19] == "https://i.imgur.com/"
+	@previewImageUrl = reply
+	@originalContentUrl = reply
+	reply = nil
+	end
+	return nil if reply.nil?
+	reply
 end
 	#關鍵字開關
 def switch(channel_id, received_text)
@@ -344,9 +340,7 @@ def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 	messageId = event['message']['id']
-
 	response = line.get_message_content(messageId)
-
 	tf = response.body.force_encoding("UTF-8")
 
 	 url = URI("https://api.imgur.com/3/image")

@@ -318,7 +318,7 @@ def nhentai(received_text)
 	keyword = received_text[11..-1]
 	url = "https://nhentai.net/search/?q="+keyword+' language:chinese&sort=popular'
 	end
-	
+
 	url_encode = URI.encode(url)
 	uri = URI(url_encode)
 	res = Net::HTTP.get(uri).to_s 
@@ -357,7 +357,7 @@ def upload_to_imgur(event)
     request = Net::HTTP::Post.new(url)
     request["authorization"] = 'Client-ID e0ee93758caf3d2'
 
-    request.set_form_data({"image" => tf})
+    request.set_form_data({"image" => tf, "album" => "O99aa5A"})
     response = http.request(request)
 
     json = JSON.parse(response.read_body)
@@ -383,6 +383,7 @@ def reply_image_to_line(reply_token)
 end
 
 	#傳送訊息到line
+	#傳送信息到line
 def reply_to_line(reply_text, reply_token)
 	return nil if reply_text.nil? 
 

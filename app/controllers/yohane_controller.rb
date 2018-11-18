@@ -346,6 +346,9 @@ def upload_to_imgur(event)
 
     request.set_form_data({"image" => tf})
     response = http.request(request)
+    p '==================='
+    p response
+    p '==================='
     json = JSON.parse(response.read_body)
     begin
       json['data']['link'].gsub("http:","https:")

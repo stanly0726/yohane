@@ -290,7 +290,7 @@ def wiki(received_text)
 
 	return nil if start_index.nil?||end_index.nil?||url_end_index.nil?
 
-	Tradsim::to_trad(res[start_index..end_index-1].to_s+"\n\n\n"+res[end_index+9..url_end_index].to_s)
+	Tradsim::to_trad(res[start_index..end_index-1].to_s+"\n\n\n"+res[end_index+5..url_end_index].to_s)
 end
 	#抽
 def draw(received_text)

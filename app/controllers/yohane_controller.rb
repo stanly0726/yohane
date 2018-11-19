@@ -59,7 +59,7 @@ def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '=========='
-	p Received.where(channel_id: channel_id).pluck(:text).to_a
+	p Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
 	p '=========='
 end
 
@@ -92,13 +92,13 @@ end
 def save_to_received(channel_id, received_text)
 	return if received_text.nil?
 	Received.create(channel_id: channel_id, text: received_text)
-	Received.first.destroy
+	Received.order(:created_at).first.destroy
 end
 	#儲存回覆
 def save_to_reply(channel_id, reply_text)
 	return if reply_text.nil?
 	Reply.create(channel_id: channel_id, text: reply_text)
-	Reply.first.destroy
+	Reply.order(:created_at).first.destroy
 end
 	#儲存頻道id
 def save_to_channel_id(channel_id)

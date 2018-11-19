@@ -281,7 +281,7 @@ def wiki(received_text)
 	url = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search='+keyword.to_s+'&limit=1&utf8'
 	url_encode = URI.encode(url)
 	uri = URI(url_encode)
-	res = Net::HTTP.get(uri).to_a
+	res = Net::HTTP.get(uri)
 	return nil if res[2].nil?
 	res[2]+"\n\n\n"+res[3]
 end

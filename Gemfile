@@ -17,6 +17,7 @@ end
 group :production do
 	gem 'pg', '~> 0.21.0'
 end
+gem 'tradsim', '~> 0.5.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

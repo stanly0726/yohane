@@ -41,6 +41,8 @@ def webhook
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
+	#XXX是什麼
+	reply_text = wiki(received_text) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#記錄對話
@@ -268,6 +270,20 @@ def follow(channel_id, received_text)
 	else
 	return nil
 	end
+end
+def wiki(received_text)
+	tag4 = received_text[-4..-1]
+	tag3 = received_text[-3..-1]
+	tag2 = received_text[-2..-1]
+	return unless tag4 =='是什麼?'||tag3 == '是啥?'||tag3 == '是什麼'||tag2 == '是啥'
+	index_is = received_text.index('是',-4)
+	keyword = received_text[0...index_is]
+	url = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search='+keyword.to_s+'&limit=1&utf8'
+	url_encode = URI.encode(url)
+	uri = URI(url_encode)
+	res = Net::HTTP.get(uri).to_a
+
+	res[2]+"\n\n\n"+res[3]
 end
 	#抽
 def draw(received_text)

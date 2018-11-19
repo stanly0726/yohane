@@ -41,11 +41,11 @@ def webhook
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
-	#樓下保持隊形
-	reply_text = follow(channel_id, received_text)
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
+	#樓下保持隊形
+	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
 	#傳送訊息到line

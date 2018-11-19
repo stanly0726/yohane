@@ -265,8 +265,8 @@ def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
 	p "==========="
 	p received[-1] == received[-2]
-	p Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1] == received[-1]
-	p !(Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1] == received[-1])
+	p Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1]
+	p Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
 	p "==========="
 	if received[-1] == received[-2] && !(Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1] == received[-1])
 	return received[-1] 

@@ -281,15 +281,15 @@ def wiki(received_text)
 	url = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search='+keyword.to_s+'&limit=1&utf8'
 	url_encode = URI.encode(url)
 	uri = URI(url_encode)
-	res = Net::HTTP.get(uri).to_s.force_encoding("UTF-8")
+	res = Net::HTTP.get(uri).to_s
 
 	start_index = res.index('"],["')+5
-	end_index = res.index('"],["http')-1
+	end_index = res.index('"],["http')
 	url_end_index = res.index('"]]')-1
 
 	return nil if start_index.nil?||end_index.nil?||url_end_index.nil?
 
-	res[start_index..end_index].to_s+"\n\n\n"+res[end_index..url_end_index]
+	res[start_index..end_index-1].to_s+"\n\n\n"+res[end_index+9..url_end_index]
 end
 	#抽
 def draw(received_text)

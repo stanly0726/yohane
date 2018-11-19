@@ -42,7 +42,7 @@ def webhook
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
 	#樓下保持隊形
-	reply_text = follow(channel_id, received_text)
+	#reply_text = follow(channel_id, received_text)
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
@@ -50,7 +50,7 @@ def webhook
 	reply_image_to_line(reply_token)
 	#傳送訊息到line
 	reply_to_line(reply_text, reply_token)
-	#backdoor(received_text, channel_id, event)
+	backdoor(received_text, channel_id, event)
  end
 	#回應200
 	head :ok
@@ -58,7 +58,7 @@ end
 def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
-
+	Received.where(channel_id: channel_id).pluck(:text).last(2)
 end
 
 def 指令列表
@@ -262,11 +262,6 @@ def keywords_include(channel_id, received_text)
 
 end
 def follow(channel_id, received_text)
-	p '============='
-	p Received.where(channel_id: channel_id).pluck(:text).last(2)
-	p '============='
-
-
 end
 	#抽
 def draw(received_text)

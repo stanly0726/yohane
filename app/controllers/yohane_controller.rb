@@ -59,7 +59,7 @@ def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
 	p '=========='
-	p Received.where(channel_id: channel_id).pluck(:text).last(2)
+	p Received.where(channel_id: channel_id).pluck(:text).to_a
 	p '=========='
 end
 

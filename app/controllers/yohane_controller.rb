@@ -263,7 +263,7 @@ def keywords_include(channel_id, received_text)
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
-	return received[-1] if received[-1] == received[-2]
+	return received[-1] if received[-1] == received[-2] && !(Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).last == received[-1])
 end
 	#抽
 def draw(received_text)

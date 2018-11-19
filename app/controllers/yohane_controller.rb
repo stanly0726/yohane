@@ -41,6 +41,8 @@ def webhook
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
+	#樓下保持隊形
+	reply_text = follow(channel_id, received_text)
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
@@ -259,6 +261,13 @@ def keywords_include(channel_id, received_text)
 	end
 
 end
+def follow(channel_id, received_text)
+	p '============='
+	p Received.where(channel_id: channel_id).pluck(:text).last(2)
+	p '============='
+
+
+end
 	#抽
 def draw(received_text)
 	return nil if received_text.nil?
@@ -359,9 +368,6 @@ def upload_to_imgur(event)
 
     request.set_form_data({"image" => tf, "album" => "fItD7OI9i3KwnQ5"})
     response = http.request(request)
-    p '=================='
-    p response
-    p '=================='
 
     json = JSON.parse(response.read_body)
     begin

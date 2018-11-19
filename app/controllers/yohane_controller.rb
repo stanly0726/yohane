@@ -41,11 +41,11 @@ def webhook
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
+	#樓下保持隊形
+	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
-	#樓下保持隊形
-	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#傳送圖片到line
 	reply_image_to_line(reply_token)
 	#傳送訊息到line
@@ -90,13 +90,13 @@ end
 def save_to_received(channel_id, received_text)
 	return if received_text.nil?
 	Received.create(channel_id: channel_id, text: received_text)
-	Received.order(:created_at).first.destroy
+	#Received.order(:created_at).first.destroy
 end
 	#儲存回覆
 def save_to_reply(channel_id, reply_text)
 	return if reply_text.nil?
 	Reply.create(channel_id: channel_id, text: reply_text)
-	Reply.order(:created_at).first.destroy
+	#Reply.order(:created_at).first.destroy
 end
 	#儲存頻道id
 def save_to_channel_id(channel_id)
@@ -263,12 +263,7 @@ def keywords_include(channel_id, received_text)
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
-	p "==========="
-	p received[-1] == received[-2]
-	p Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1]
-	p Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
-	p "==========="
-	if received[-1] == received[-2] && !(Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1] == received[-1])
+	if received[-1] == received_text && !(Reply.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a[-1] == received[-1])
 	return received[-1] 
 	else
 	return nil

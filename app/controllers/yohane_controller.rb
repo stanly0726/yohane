@@ -290,8 +290,8 @@ def wiki(received_text)
 	url_end_index = res.index('"]]')-1
 
 	return nil if start_index.nil?||end_index.nil?||url_end_index.nil?
-
-	Tradsim::to_trad(res[start_index..end_index-1].to_s.gsub('\"','"')+"\n\n\n"+res[end_index+5..url_end_index].to_s)
+	page_url = URI.decode(res[end_index+5..url_end_index].to_s)
+	Tradsim::to_trad(res[start_index..end_index-1].to_s.gsub('\"','"')+"\n\n\n"+page_url)
 end
 	#抽
 def draw(received_text)

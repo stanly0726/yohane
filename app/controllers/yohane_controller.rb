@@ -67,21 +67,23 @@ end
 def 指令列表
 "指令列表；
 
-新增關鍵字：學說話=關鍵字=回應
-新增「包含」關鍵字：學說話*=關鍵字=回應
-刪除關鍵字：忘記=關鍵字
-刪除「包含」關鍵字：忘記*=關鍵字
-開啟或關閉「使用其他聊天室設定的關鍵字」功能：全域關鍵字=開/關
-抽獎：抽*數量
+新增關鍵字：學說話=<關鍵字>=<回應>
+新增「包含」關鍵字：學說話*=<關鍵字>=<回應>
+刪除關鍵字：忘記=<關鍵字>
+刪除「包含」關鍵字：忘記*=<關鍵字>
+開啟或關閉「使用其他聊天室設定的關鍵字」功能：全域關鍵字=<開/關>
+抽獎：抽*<數量>
 查詢關鍵字：關鍵字列表
 查詢「包含」關鍵字：關鍵字列表*
 查詢指令：指令
-用私訊傳圖片，機器人會上傳圖片並回傳網址"
+
+功能；
+用私訊傳圖片給機器人，機器人會回傳圖片連結"
 end
 	#加入群組
 def join(event)
 	if event['type'] == 'join'
-	return 指令列表
+	return "感謝將本機加入群組～\n以下是指令\n\n" + 指令列表
 	end
 end
 	#頻道ID
@@ -133,7 +135,7 @@ def learn(channel_id, received_text, event)
 
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
-	'ok'
+	'ok 記住囉！'
 end
 	#學說話(include
 def learn_include(channel_id, received_text, event)
@@ -153,7 +155,7 @@ def learn_include(channel_id, received_text, event)
 
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
-	'好喔'
+	'ok 記住囉！'
 end
 	#忘記說話(include
 def frogot_include(channel_id, received_text)
@@ -404,8 +406,7 @@ def upload_to_imgur(event)
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
-	return nil if @previewImageUrl.nil?
-	return nil if @originalContentUrl.nil?
+	return nil if @previewImageUrl.nil? || @originalContentUrl.nil?
 
 	message = {
 		type: "image",

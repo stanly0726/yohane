@@ -64,7 +64,7 @@ end
 def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 	if received_text == 'vwoiegobrhgxarmghxiumrvu'
-		GoogleSearch.web :q => "夜羽"
+	p GoogleSearch.web :q => "夜羽"
 	end
 
 end

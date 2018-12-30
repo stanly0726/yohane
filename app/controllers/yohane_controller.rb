@@ -2,6 +2,7 @@ require 'line/bot'
 require 'net/http'
 require 'uri'
 require 'tradsim'
+require 'google_search'
 class YohaneController < ApplicationController
 	protect_from_forgery with: :null_session
 
@@ -18,6 +19,8 @@ def webhook
 	#加入群組
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
+	#測試後門
+	backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -53,14 +56,16 @@ def webhook
 	reply_image_to_line(reply_token)
 	#傳送訊息到line
 	reply_to_line(reply_text, reply_token)
-	#backdoor(received_text, channel_id, event)
+	
  end
 	#回應200
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
+	if received_text == 'vwoiegobrhgxarmghxiumrvu'
+		GoogleSearch.web :q => "夜羽"
+	end
 
 end
 

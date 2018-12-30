@@ -79,12 +79,15 @@ GEM
     ffi (1.9.25-x64-mingw32)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    google_search (1.2.0)
+      json
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    json (2.1.0)
     line-bot-api (1.2.5)
     loofah (2.2.3)
       crass (~> 1.0.2)
@@ -194,6 +197,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   duktape
+  google_search (~> 1.2)
   jbuilder (~> 2.5)
   line-bot-api
   pg (~> 0.21.0)

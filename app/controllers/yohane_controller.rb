@@ -2,7 +2,6 @@ require 'line/bot'
 require 'net/http'
 require 'uri'
 require 'tradsim'
-require 'google_search'
 class YohaneController < ApplicationController
 	protect_from_forgery with: :null_session
 
@@ -239,7 +238,7 @@ def switch(channel_id, received_text)
 end
 	#查指令
 def command(received_text)
-	if received_text == "指令" || received_text == "指令"
+	if received_text == "指令" || received_text == "指令列表"
 	return 指令列表
 	else return nil
 	end
@@ -355,6 +354,9 @@ def nhentai(received_text)
 	keyword = nil
 	url = nil
 
+
+
+
 	if received_text[0..7] == 'nhentai='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
@@ -392,7 +394,7 @@ def nhentai(received_text)
 		reply_arr << title_arr[i] + "\n" + "https://nhentai.net/g/" + url_arr[i] unless title_arr[i].nil? ||url_arr[i].nil?
 	end
 
-	reply_arr.join("\n").to_s.force_encoding("UTF-8") + "\n\n搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8")
+	"搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
 def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'

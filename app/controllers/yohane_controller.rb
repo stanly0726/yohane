@@ -18,6 +18,8 @@ def webhook
 	#加入群組
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
+	#測試後門
+	#backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -53,14 +55,16 @@ def webhook
 	reply_image_to_line(reply_token)
 	#傳送訊息到line
 	reply_to_line(reply_text, reply_token)
-	#backdoor(received_text, channel_id, event)
+	
  end
 	#回應200
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
 	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-	#if received_text == 'vwoiegobrhgxarmghxiumrvu'
+	if received_text == 'vwoiegobrhgxarmghxiumrvu'
+	p GoogleSearch.web :q => "夜羽"
+	end
 
 end
 
@@ -242,7 +246,7 @@ def switch(channel_id, received_text)
 end
 	#查指令
 def command(received_text)
-	if received_text == "指令" || received_text == "指令"
+	if received_text == "指令" || received_text == "指令列表"
 	return 指令列表
 	else return nil
 	end
@@ -358,6 +362,9 @@ def nhentai(received_text)
 	keyword = nil
 	url = nil
 
+
+
+
 	if received_text[0..7] == 'nhentai='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
@@ -395,7 +402,7 @@ def nhentai(received_text)
 		reply_arr << title_arr[i] + "\n" + "https://nhentai.net/g/" + url_arr[i] unless title_arr[i].nil? ||url_arr[i].nil?
 	end
 
-	reply_arr.join("\n").to_s.force_encoding("UTF-8") + "\n\n搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8")
+	"搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
 def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'

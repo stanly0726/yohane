@@ -399,7 +399,7 @@ def nhentai(received_text)
 	end
 
 	(0..9).each do |i|
-		reply_arr << title_arr[i] + "\n" + "https://nhentai.net/g/" + url_arr[i] unless title_arr[i].nil? ||url_arr[i].nil?
+		reply_arr << title_arr[i] + "\n" + "https://nhentai.net/g/" + url_arr[i] + "\n" unless title_arr[i].nil? ||url_arr[i].nil?
 	end
 
 	"搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")

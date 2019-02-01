@@ -402,7 +402,7 @@ def nhentai(received_text)
 		reply_arr << title_arr[i] + "\n" + "https://nhentai.net/g/" + url_arr[i] + "\n" unless title_arr[i].nil? ||url_arr[i].nil?
 	end
 
-	"搜尋頁面：\n".force_encoding("UTF-8") + url.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")
+	"搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
 def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'

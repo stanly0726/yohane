@@ -364,9 +364,6 @@ def nhentai(received_text)
 	keyword = nil
 	url = nil
 
-
-
-
 	if received_text[0..7] == 'nhentai='
 	keyword = received_text[8..-1]
 	url = "https://nhentai.net/search/?q="+keyword+'&sort=popular'
@@ -433,8 +430,19 @@ end
    #半次元
 def bcy(received_text)
     return nil unless received_text.include?("bcy.net")
-    
-   
+	url_encode = URI.encode(received_text)
+	uri = URI(url_encode)
+	res = Net::HTTP.get(uri).to_s.gsub('\\\\u002F','/').gsub('"','').gsub(']','')
+
+	start_index = res.enum_for(:scan, /original_path\\:\\https:\/\/img-bcy-qn.pstatp.com\/(coser|user|illust|drawer)\/\w*\/(item|post|daily)(\/web)?\/\w*\/\w*.(jpg|png|gif)/).map { Regexp.last_match.begin(0) }
+
+	end_index = res.enum_for(:scan, /\.jpg\\},{?\\/).map { Regexp.last_match.begin(0) }
+
+	arr = Array.new
+	(0..30).each do |i|
+		arr << res[start_index[i]+16..end_index[i]+3] unless start_index[i].nil?
+	end
+	arr.join("\n").to_s
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)

@@ -48,6 +48,8 @@ def webhook
 	reply_text = wiki(received_text) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
+	#半次元
+	reply_text = bcy(received_text)
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
@@ -427,6 +429,12 @@ def upload_to_imgur(event)
       nil
     end
 
+end
+   #半次元
+def bcy(received_text)
+    return nil unless received_text.include?("bcy.net")
+    
+   
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)

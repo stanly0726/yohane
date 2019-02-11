@@ -49,7 +49,7 @@ def webhook
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#半次元
-	reply_text = bcy(received_text)
+	reply_text = bcy(received_text) if reply_text.nil?
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)

@@ -506,7 +506,7 @@ def learn_sticker(channel_id, received_text, event)
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
 	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
-	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
+	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
 	
 	"嗯嗯"
 end

@@ -217,6 +217,7 @@ def keyword_reply(channel_id, received_text)
 	@originalContentUrl = reply
 	reply = nil
 	end
+	reply
 end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)

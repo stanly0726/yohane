@@ -49,7 +49,7 @@ def webhook
 	#XXX是什麼
 	reply_text = wiki(received_text) if reply_text.nil?
 	#查貼圖
-	reply_text = find_sticker(event)
+	reply_text = find_sticker(event) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#半次元

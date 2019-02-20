@@ -319,7 +319,7 @@ def keyword_include_sticker(channel_id, received_text)
 	if received_text == '關鍵字列表*貼圖'
 		keyword = KeywordMappingSticker.where(channel_id: channel_id).pluck(:keyword).to_a
 		message = KeywordMappingSticker.where(channel_id: channel_id).pluck(:message).to_a
-		editor = KeywordMappingSticker.where(channel_id: channel_id).pluck(:user_id).to_a
+		editor = KeywordMappingSticker.where(channel_id: channel_id).pluck(:user).to_a
 		return "沒有關鍵字喔" if keyword == [] || message == []
 		
 		reply_arr = Array.new

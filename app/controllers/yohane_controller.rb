@@ -24,6 +24,8 @@ def webhook
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
 	reply_text = learn_include(channel_id, received_text, event) if reply_text.nil?
+	#學說話(貼圖
+	reply_text = learn_sticker(channel_id, event) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
@@ -46,6 +48,8 @@ def webhook
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
 	#XXX是什麼
 	reply_text = wiki(received_text) if reply_text.nil?
+	#查貼圖
+	reply_text = find_sticker(event)
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
 	#半次元
@@ -444,6 +448,13 @@ def bcy(received_text)
 		arr << res[start_index[i]+16..end_index[i]+3] unless start_index[i].nil?
 	end
 	arr.join("\n").to_s
+end
+def find_sticker(event)
+	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
+	return nil unless event['message']['type'] == 'sticker'
+	packageId = event['message']['packageId']
+	stickerId = event['message']['stickerId']
+	'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)

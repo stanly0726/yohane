@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_105518) do
+ActiveRecord::Schema.define(version: 2019_02_20_122429) do
 
   create_table "keyword_mapping_includes", force: :cascade do |t|
     t.string "channel_id"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2018_11_12_105518) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_id"
+  end
+
+  create_table "keyword_mapping_stickers", force: :cascade do |t|
+    t.string "channel_id"
+    t.string "keyword"
+    t.string "message"
+    t.string "user"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "keyword_mappings", force: :cascade do |t|

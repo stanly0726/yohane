@@ -32,6 +32,8 @@ def webhook
 	reply_text = frogot_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復
 	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
+	#關鍵字回復(貼圖
+	reply_text = keyword_reply_sticker(channel_id, received_text) if reply_text.nil?
 	#關鍵字開關
 	reply_text = switch(channel_id, received_text) if reply_text.nil?
 	#nhentai
@@ -42,8 +44,10 @@ def webhook
 	reply_text = command(received_text) if reply_text.nil?
 	#查關鍵字
 	reply_text = keywords(channel_id, received_text) if reply_text.nil?
-	#查關鍵字(include)
+	#查關鍵字(include
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
+	#查關鍵字(貼圖
+	reply_text = keyword_include_sticker(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
 	#XXX是什麼
@@ -223,6 +227,18 @@ def keyword_reply(channel_id, received_text)
 	end
 	reply
 end
+	#關鍵字回復(貼圖
+def keyword_reply_sticker(channel_id, received_text)
+	return nil if received_text.nil?
+	reply = KeywordMappingSticker.where(channel_id: channel_id, keyword: received_text).last&.message
+	return nil if reply.nil?
+	if reply[0..19] == "https://i.imgur.com/"
+	@previewImageUrl = reply
+	@originalContentUrl = reply
+	reply = nil
+	end
+	reply
+end
 	#關鍵字回復(include
 def keyword_reply_include(channel_id, received_text)
 	return nil if received_text.nil?
@@ -236,7 +252,6 @@ def keyword_reply_include(channel_id, received_text)
 	@originalContentUrl = reply
 	reply = nil
 	end
-	return nil if reply.nil?
 	reply
 end
 	#關鍵字開關
@@ -260,6 +275,7 @@ def command(received_text)
 end
 	#查關鍵字
 def keywords(channel_id, received_text)
+	return nil if received_text.nil?
 	if received_text == '關鍵字列表'
 		
 		keyword = KeywordMapping.where(channel_id: channel_id).pluck(:keyword).to_a
@@ -278,6 +294,7 @@ def keywords(channel_id, received_text)
 end
 	#查關鍵字(include)
 def keywords_include(channel_id, received_text)
+	return nil if received_text.nil?
 	if received_text == '關鍵字列表*'
 		
 		keyword = KeywordMappingInclude.where(channel_id: channel_id).pluck(:keyword).to_a
@@ -292,7 +309,23 @@ def keywords_include(channel_id, received_text)
 		end
 		reply_arr.join("\n\n")	
 	end
-
+end
+	#查關鍵字(貼圖
+def keyword_include_sticker(channel_id, received_text)
+	return nil if received_text.nil?
+	if received_text == '關鍵字列表*貼圖'
+		keyword = KeywordMappingSticker.where(channel_id: channel_id).pluck(:keyword).to_a
+		message = KeywordMappingSticker.where(channel_id: channel_id).pluck(:message).to_a
+		editor = KeywordMappingSticker.where(channel_id: channel_id).pluck(:user_id).to_a
+		return "沒有關鍵字喔" if keyword == [] || message == []
+		
+		reply_arr = Array.new
+		number = keyword.size.to_i
+		0.upto(number-1) do |i|
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
+		end
+		reply_arr.join("\n\n")	
+	end
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
@@ -463,14 +496,14 @@ def learn_sticker(channel_id, received_text, event)
 	content = recieved_text[7..-1]
 	semicolon_index = content.index('=')
 	
-	key = content[0..semicolon_index-1]
+	keyword = content[0..semicolon_index-1]
 	message = content[semicolon_index+1..-1]
 	
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(responce.body)['displayName']
-	KeywordMapping.where(channel_id: channel_id, keyword: key).destory_all unless KeywordMapping.where(channel_id: channel_id, keyword: key).nil?
-	KeywordMapping.create(channel_id: channel_id, keyword: key, message: message, user_id: user)
+	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destory_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
+	KeywordMappingSticker.create(channel_id: channel_id, keyword: key, message: message, user_id: user)
 	
 	"嗯嗯"
 end

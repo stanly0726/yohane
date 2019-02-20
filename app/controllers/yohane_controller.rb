@@ -25,7 +25,7 @@ def webhook
 	#學說話(include
 	reply_text = learn_include(channel_id, received_text, event) if reply_text.nil?
 	#學說話(貼圖
-	reply_text = learn_sticker(channel_id, event) if reply_text.nil?
+	#reply_text = learn_sticker(channel_id, event) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include

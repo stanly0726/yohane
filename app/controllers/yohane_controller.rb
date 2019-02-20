@@ -496,7 +496,7 @@ end
 def learn_sticker(channel_id, received_text, event)
 	return nil if received_text.nil?
 	return nil unless received_text[0..6] =='學說話*貼圖='
-	content = recieved_text[7..-1]
+	content = received_text[7..-1]
 	semicolon_index = content.index('=')
 	
 	keyword = content[0..semicolon_index-1]

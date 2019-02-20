@@ -25,7 +25,7 @@ def webhook
 	#學說話(include
 	reply_text = learn_include(channel_id, received_text, event) if reply_text.nil?
 	#學說話(貼圖
-	#reply_text = learn_sticker(channel_id, event) if reply_text.nil?
+	reply_text = learn_sticker(channel_id, received_text, event) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
@@ -457,6 +457,23 @@ def find_sticker(event)
 	stickerId = event['message']['stickerId']
 	'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
 end
+def learn_sticker(channel_id, received_text, event)
+	return nil if received_text.nil?
+	return nil unless received_text[0..6] =='學說話*貼圖='
+	content = recieved_text[7..-1]
+	semicolon_index = content.index('=')
+	
+	key = content[0..semicolon_index-1]
+	message = content[semicolon_index+1..-1]
+	
+	user_id = event['source']['userId']
+	response = line.get_profile(user_id)
+	user = JSON.parse(responce.body)['displayName']
+	KeywordMapping.where(channel_id: channel_id, keyword: key).destory_all unless KeywordMapping.where(channel_id: channel_id, keyword: key).nil?
+	KeywordMapping.create(channel_id: channel_id, keyword: key, message: message, user_id: user)
+	
+	"嗯嗯"
+end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil? || @originalContentUrl.nil?
@@ -469,8 +486,6 @@ def reply_image_to_line(reply_token)
 	
 	line.reply_message(reply_token, message)
 end
-
-	#傳送訊息到line
 	#傳送信息到line
 def reply_to_line(reply_text, reply_token)
 	return nil if reply_text.nil? 

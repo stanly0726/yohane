@@ -33,7 +33,7 @@ def webhook
 	#關鍵字回復
 	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(貼圖
-	reply_text = keyword_reply_sticker(channel_id, received_text) if reply_text.nil?
+	reply_text = keyword_reply_sticker(channel_id, event) if reply_text.nil?
 	#關鍵字開關
 	reply_text = switch(channel_id, received_text) if reply_text.nil?
 	#nhentai
@@ -228,9 +228,12 @@ def keyword_reply(channel_id, received_text)
 	reply
 end
 	#關鍵字回復(貼圖
-def keyword_reply_sticker(channel_id, received_text)
-	return nil if received_text.nil?
-	reply = KeywordMappingSticker.where(channel_id: channel_id, keyword: received_text).last&.message
+def keyword_reply_sticker(channel_id, event)
+	return nil unless event['message']['type'] == 'sticker'
+	packageId = event['message']['packageId']
+	stickerId = event['message']['stickerId']
+	key = 'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
+	reply = KeywordMappingSticker.where(channel_id: channel_id, keyword: key).last&.message
 	return nil if reply.nil?
 	if reply[0..19] == "https://i.imgur.com/"
 	@previewImageUrl = reply

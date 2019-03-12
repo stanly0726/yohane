@@ -161,7 +161,8 @@ def learn(channel_id, received_text, event)
 
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
-	'ok 記住囉！'
+	'ok
+	記住囉！'
 end
 	#學說話(include
 def learn_include(channel_id, received_text, event)

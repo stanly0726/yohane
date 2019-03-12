@@ -168,6 +168,7 @@ def learn(channel_id, received_text, event)
 
 	'ok 記住囉！'
 end
+
 	#學說話(include
 def learn_include(channel_id, received_text, event)
 	return nil if received_text.nil?

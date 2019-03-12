@@ -198,7 +198,7 @@ def frogot_include(channel_id, received_text)
 end
 	#忘記說話
 def forgot(channel_id, received_text)
-	return nil if received_text.nil?
+	return nil if received_text.nil?
 	return nil unless received_text[0..2] == "忘記="
 	keyword = received_text[3..-1]
 	if KeywordMapping.where(channel_id: channel_id, keyword: keyword).to_a == []

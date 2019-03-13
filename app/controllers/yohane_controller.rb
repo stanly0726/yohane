@@ -213,6 +213,18 @@ def forgot(channel_id, received_text)
 	"忘記啦！"
 	end
 end
+	#忘記說話（貼圖
+def forgot_sticker(channel_id, received_text)
+	return nil if received_text.nil?
+	return nil unless received_text[0..5] == '忘記*貼圖='
+	keyword = received_text[6..-1]
+	if KeywordMapping.where(channel_id: channel_id, keyword: keyword).to_a == []
+		'查無關鍵字'
+	else
+		KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all
+		"忘記啦！"
+	end
+end
 	#關鍵字回復
 def keyword_reply(channel_id, received_text)
 	reply = KeywordMapping.where(channel_id: channel_id, keyword: received_text).last&.message

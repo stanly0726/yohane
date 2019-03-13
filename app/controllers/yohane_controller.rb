@@ -218,10 +218,10 @@ def forgot_sticker(channel_id, received_text)
 	return nil if received_text.nil?
 	return nil unless received_text[0..5] == '忘記*貼圖='
 	keyword = received_text[6..-1]
-	if KeywordMapping.where(channel_id: channel_id, keyword: keyword).to_a == []
+	if KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).to_a == []
 		'查無關鍵字'
 	else
-		KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all
+		KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all
 		"忘記啦！"
 	end
 end

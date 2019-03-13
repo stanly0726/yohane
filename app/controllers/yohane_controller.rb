@@ -30,6 +30,8 @@ def webhook
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
 	reply_text = frogot_include(channel_id, received_text) if reply_text.nil?
+	#忘記說話（貼圖
+	reply_text = forgot_sticker(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復
 	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(貼圖

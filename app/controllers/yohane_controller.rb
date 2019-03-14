@@ -19,7 +19,7 @@ def webhook
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
-	#backdoor(received_text, channel_id, event)
+	backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -73,11 +73,21 @@ def webhook
 	head :ok
 end
 def backdoor(received_text, channel_id, event)
-	return unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-	if received_text == 'vwoiegobrhgxarmghxiumrvu'
-	p GoogleSearch.web :q => "夜羽"
-	end
+	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
+	return nil if received_text.nil?
+	return nil unless received_text[0..6] == '學說話*隨機='
 
+	content = received_text[7..-1]
+  seperater_index = content.index('=\n')
+
+	keyword = content[0..seperater_index-1]
+	list = content[seperater_index+3..-1].split('\n').to_a.to_s
+	p '============================'
+	p keyword
+	p '=============================='
+	p list
+	p '=============================='
+	nil
 end
 
 def 指令列表
@@ -153,7 +163,6 @@ def learn(channel_id, received_text, event)
 	received_text = received_text[4..-1]
 	semicolon_index = received_text.index('=')
 
-	#找不到分號就跳出
 	return nil if semicolon_index.nil?
 
 	keyword = received_text[0..semicolon_index-1]
@@ -163,8 +172,7 @@ def learn(channel_id, received_text, event)
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
 
-	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
-
+	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
 	'ok 記住囉！'
@@ -189,6 +197,36 @@ def learn_include(channel_id, received_text, event)
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 	'ok 記住囉！'
+end
+	＃學說話（貼圖
+def learn_sticker(channel_id, received_text, event)
+	return nil if received_text.nil?
+	return nil unless received_text[0..6] =='學說話*貼圖='
+	content = received_text[7..-1]
+	semicolon_index = content.index('=')
+
+	keyword = content[0..semicolon_index-1]
+	message = content[semicolon_index+1..-1]
+
+	user_id = event['source']['userId']
+	response = line.get_profile(user_id)
+	user = JSON.parse(response.body)['displayName']
+	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
+	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
+
+	"嗯嗯"
+end
+	#學說話（隨機
+def learn_random(channel_id, received_text)
+	return nil if received_text.nil?
+	return nil unless received_text[0..6] == '學說話*隨機='
+
+	content = received_text[7..-1]
+  seperater_index = content.index('=\n')
+
+	keyword = content[0..seperater_index-1]
+	list = content[seperater_index+3..-1].split('\n').to_a
+
 end
 	#忘記說話(include
 def frogot_include(channel_id, received_text)
@@ -501,6 +539,7 @@ def bcy(received_text)
 	end
 	arr.join("\n").to_s
 end
+	＃查貼圖ID
 def find_sticker(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 	return nil unless event['message']['type'] == 'sticker'
@@ -508,23 +547,7 @@ def find_sticker(event)
 	stickerId = event['message']['stickerId']
 	'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
 end
-def learn_sticker(channel_id, received_text, event)
-	return nil if received_text.nil?
-	return nil unless received_text[0..6] =='學說話*貼圖='
-	content = received_text[7..-1]
-	semicolon_index = content.index('=')
 
-	keyword = content[0..semicolon_index-1]
-	message = content[semicolon_index+1..-1]
-
-	user_id = event['source']['userId']
-	response = line.get_profile(user_id)
-	user = JSON.parse(response.body)['displayName']
-	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
-	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
-
-	"嗯嗯"
-end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil? || @originalContentUrl.nil?

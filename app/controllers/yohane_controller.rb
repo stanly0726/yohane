@@ -83,6 +83,10 @@ def backdoor(received_text, channel_id, event)
 	keyword = content[0..seperater_index-1]
 	list = content[seperater_index+1..-1].split(' ').to_a
 
+	user_id = event['source']['userId']
+	response = line.get_profile(user_id)
+	user = JSON.parse(response.body)['displayName']
+
 	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
 	'要讓我決定是吧！'
@@ -209,6 +213,7 @@ def learn_sticker(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
+
 	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
 

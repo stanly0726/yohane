@@ -82,7 +82,8 @@ def backdoor(received_text, channel_id, event)
 ')
 
 	keyword = content[0..seperater_index-1]
-	list = content[seperater_index+3..-1].split('\n').to_a.to_s
+	list = content[seperater_index+3..-1].split('
+').to_a
 	p '============================'
 	p keyword
 	p '=============================='

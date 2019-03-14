@@ -78,7 +78,7 @@ def backdoor(received_text, channel_id, event)
 	return nil unless received_text[0..6] == '學說話*隨機='
 
 	content = received_text[7..-1]
-  seperater_index = content.index('=\n')
+  seperater_index = content.index('=\\n')
 
 	keyword = content[0..seperater_index-1]
 	list = content[seperater_index+3..-1].split('\n').to_a.to_s

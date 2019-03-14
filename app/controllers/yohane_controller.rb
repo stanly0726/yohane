@@ -26,6 +26,8 @@ def webhook
 	reply_text = learn_include(channel_id, received_text, event) if reply_text.nil?
 	#學說話(貼圖
 	reply_text = learn_sticker(channel_id, received_text, event) if reply_text.nil?
+	#學說話（隨機
+	reply_text = learn_random(channel_id, received_text) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
@@ -74,22 +76,7 @@ def webhook
 end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-	return nil if received_text.nil?
-	return nil unless received_text[0..6] == '學說話*隨機='
 
-	content = received_text[7..-1]
-  seperater_index = content.index('=')
-
-	keyword = content[0..seperater_index-1]
-	list = content[seperater_index+1..-1].split(' ').to_a
-
-	user_id = event['source']['userId']
-	response = line.get_profile(user_id)
-	user = JSON.parse(response.body)['displayName']
-
-	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
-	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
-	'要讓我決定是吧！'
 end
 
 def 指令列表
@@ -225,11 +212,18 @@ def learn_random(channel_id, received_text)
 	return nil unless received_text[0..6] == '學說話*隨機='
 
 	content = received_text[7..-1]
-  seperater_index = content.index('=\n')
+  seperater_index = content.index('=')
 
 	keyword = content[0..seperater_index-1]
-	list = content[seperater_index+3..-1].split('\n').to_a
+	list = content[seperater_index+1..-1].split(' ').to_a
 
+	user_id = event['source']['userId']
+	response = line.get_profile(user_id)
+	user = JSON.parse(response.body)['displayName']
+
+	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
+	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
+	'要讓我決定是吧！'
 end
 	#忘記說話(include
 def frogot_include(channel_id, received_text)

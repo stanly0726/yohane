@@ -198,7 +198,7 @@ def learn_include(channel_id, received_text, event)
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 	'ok 記住囉！'
 end
-	＃學說話（貼圖
+	#學說話（貼圖
 def learn_sticker(channel_id, received_text, event)
 	return nil if received_text.nil?
 	return nil unless received_text[0..6] =='學說話*貼圖='

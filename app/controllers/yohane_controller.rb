@@ -539,7 +539,7 @@ def bcy(received_text)
 	end
 	arr.join("\n").to_s
 end
-	＃查貼圖ID
+	#查貼圖ID
 def find_sticker(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 	return nil unless event['message']['type'] == 'sticker'

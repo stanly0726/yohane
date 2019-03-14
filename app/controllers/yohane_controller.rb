@@ -83,7 +83,7 @@ def backdoor(received_text, channel_id, event)
 	keyword = content[0..seperater_index-1]
 	list = content[seperater_index+1..-1].split(' ').to_a
 
-	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil
+	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
 	'要讓我決定是吧！'
 end
@@ -170,7 +170,7 @@ def learn(channel_id, received_text, event)
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
 
-	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil
+	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
 	'ok 記住囉！'

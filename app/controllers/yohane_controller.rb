@@ -84,7 +84,7 @@ def backdoor(received_text, channel_id, event)
 	list = content[seperater_index+1..-1].split(' ').to_a
 
 	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
-	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
+	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
 	'要讓我決定是吧！'
 end
 

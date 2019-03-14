@@ -27,7 +27,7 @@ def webhook
 	#學說話(貼圖
 	reply_text = learn_sticker(channel_id, received_text, event) if reply_text.nil?
 	#學說話（隨機
-	reply_text = learn_random(channel_id, received_text) if reply_text.nil?
+	reply_text = learn_random(channel_id, received_text, event) if reply_text.nil?
 	#忘記說話
 	reply_text = forgot(channel_id, received_text) if reply_text.nil?
 	#忘記說話(include
@@ -38,6 +38,8 @@ def webhook
 	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(貼圖
 	reply_text = keyword_reply_sticker(channel_id, event) if reply_text.nil?
+	#關鍵字回復(include
+	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
 	#關鍵字開關
 	reply_text = switch(channel_id, received_text) if reply_text.nil?
 	#nhentai
@@ -52,8 +54,6 @@ def webhook
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#查關鍵字(貼圖
 	reply_text = keyword_include_sticker(channel_id, received_text) if reply_text.nil?
-	#關鍵字回復(include
-	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
 	#XXX是什麼
 	reply_text = wiki(received_text) if reply_text.nil?
 	#查貼圖
@@ -207,7 +207,7 @@ def learn_sticker(channel_id, received_text, event)
 	"嗯嗯"
 end
 	#學說話（隨機
-def learn_random(channel_id, received_text)
+def learn_random(channel_id, received_text, event)
 	return nil if received_text.nil?
 	return nil unless received_text[0..6] == '學說話*隨機='
 

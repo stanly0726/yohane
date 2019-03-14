@@ -148,7 +148,6 @@ end
 	#學說話
 def learn(channel_id, received_text, event)
 	return nil if received_text.nil?
-	#如果開頭不是 學說話; 就跳出
 	return nil unless received_text[0..3] == '學說話='
 
 	received_text = received_text[4..-1]
@@ -486,7 +485,8 @@ def upload_to_imgur(event)
 end
    #半次元
 def bcy(received_text)
-    return nil unless received_text.include?("bcy.net")
+	return nil if received_text.nil?
+  return nil unless received_text.include?("bcy.net")
 	url_encode = URI.encode(received_text)
 	uri = URI(url_encode)
 	res = Net::HTTP.get(uri).to_s.gsub('\\\\u002F','/').gsub('"','').gsub(']','')

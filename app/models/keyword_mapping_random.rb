@@ -1,0 +1,2 @@
+class KeywordMappingRandom < ApplicationRecord
+end

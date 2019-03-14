@@ -82,12 +82,10 @@ def backdoor(received_text, channel_id, event)
 
 	keyword = content[0..seperater_index-1]
 	list = content[seperater_index+1..-1].split(' ').to_a
-	p '============================'
-	p keyword
-	p '=============================='
-	p list
-	p '=============================='
-	nil
+
+	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil
+	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
+	'要讓我決定是吧！'
 end
 
 def 指令列表
@@ -181,8 +179,8 @@ end
 	#學說話(include
 def learn_include(channel_id, received_text, event)
 	return nil if received_text.nil?
-	received_content = received_text[5..-1]
 	return nil unless received_text[0..4] == '學說話*='
+	received_content = received_text[5..-1]
 	semicolon_index = received_content.index('=')
 	return nil if semicolon_index.nil?
 

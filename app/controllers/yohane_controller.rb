@@ -40,6 +40,8 @@ def webhook
 	reply_text = keyword_reply_sticker(channel_id, event) if reply_text.nil?
 	#關鍵字回復(include
 	reply_text = keyword_reply_include(channel_id, received_text) if reply_text.nil?
+	#關鍵字回覆（隨機
+	reply_text = keyword_reply_random(channel_id, received_text) if reply_text.nil?
 	#關鍵字開關
 	reply_text = switch(channel_id, received_text) if reply_text.nil?
 	#nhentai
@@ -293,7 +295,7 @@ def keyword_reply_sticker(channel_id, event)
 	end
 	reply
 end
-	#關鍵字回復(include
+	#關鍵字回覆(include
 def keyword_reply_include(channel_id, received_text)
 	return nil if received_text.nil?
 	reply = nil
@@ -307,6 +309,13 @@ def keyword_reply_include(channel_id, received_text)
 	reply = nil
 	end
 	reply
+end
+	#關鍵字回覆（隨機
+def keyword_reply_random(channel_id, received_text)
+	return nil if received_text.nil?
+	message = KeywordMappingRandom.where(channel_id: channel_id, keyword: received_text).message
+	return nil if message.nil?
+	message.split(' ').to_a.sample
 end
 	#關鍵字開關
 def switch(channel_id, received_text)

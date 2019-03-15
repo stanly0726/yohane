@@ -287,6 +287,7 @@ def keyword_reply_sticker(channel_id, event)
 	stickerId = event['message']['stickerId']
 	key = 'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
 	reply = KeywordMappingSticker.where(channel_id: channel_id, keyword: key).last&.message
+	return nil if reply.nil?
 	if reply[0..19] == "https://i.imgur.com/"
 	@previewImageUrl = reply
 	@originalContentUrl = reply
@@ -313,6 +314,7 @@ end
 def keyword_reply_random(channel_id, received_text)
 	return nil if received_text.nil?
 	message = KeywordMappingRandom.where(channel_id: channel_id, keyword: received_text).last&.message
+	return nil if message.nil?
 	message.split(' ').to_a.sample
 end
 	#關鍵字開關

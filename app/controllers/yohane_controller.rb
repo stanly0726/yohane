@@ -19,7 +19,7 @@ def webhook
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
-	backdoor(received_text, channel_id, event)
+	#backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -53,7 +53,9 @@ def webhook
 	#查關鍵字(include
 	reply_text = keywords_include(channel_id, received_text) if reply_text.nil?
 	#查關鍵字(貼圖
-	reply_text = keyword_include_sticker(channel_id, received_text) if reply_text.nil?
+	reply_text = keywords_sticker(channel_id, received_text) if reply_text.nil?
+	#查關鍵字（隨機
+	reply_text = keywords_random(channel_id, received_text) if reply_text.nil?
 	#XXX是什麼
 	reply_text = wiki(received_text) if reply_text.nil?
 	#查貼圖
@@ -225,28 +227,28 @@ def learn_random(channel_id, received_text, event)
 	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
 	'要讓我決定是吧！'
 end
-	#忘記說話(include
-def frogot_include(channel_id, received_text)
-	return nil if received_text.nil?
-	return nil unless received_text[0..3] == '忘記*='
-	keyword = received_text[4..-1]
-	if KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).to_a == []
-	'查無關鍵字'
-	else
-	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all
-	"忘記啦！"
-	end
-end
 	#忘記說話
 def forgot(channel_id, received_text)
 	return nil if received_text.nil?
 	return nil unless received_text[0..2] == "忘記="
 	keyword = received_text[3..-1]
 	if KeywordMapping.where(channel_id: channel_id, keyword: keyword).to_a == []
-	'查無關鍵字'
+		'查無關鍵字'
 	else
-	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all
-	"忘記啦！"
+		KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all
+		'忘記啦！'
+	end
+end
+	#忘記說話(include
+def frogot_include(channel_id, received_text)
+	return nil if received_text.nil?
+	return nil unless received_text[0..3] == '忘記*='
+	keyword = received_text[4..-1]
+	if KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).to_a == []
+		'查無關鍵字'
+	else
+	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all
+		'忘記啦！'
 	end
 end
 	#忘記說話（貼圖
@@ -258,7 +260,7 @@ def forgot_sticker(channel_id, received_text)
 		'查無關鍵字'
 	else
 		KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all
-		"忘記啦！"
+		'忘記啦！'
 	end
 end
 	#關鍵字回復
@@ -269,7 +271,7 @@ def keyword_reply(channel_id, received_text)
 		reply = KeywordMapping.where(keyword: received_text).last&.message
 	end
 	return nil if reply.nil?
-	if reply[0..19] == "https://i.imgur.com/"
+	if reply[0..19] == 'https://i.imgur.com/'
 	@previewImageUrl = reply
 	@originalContentUrl = reply
 	reply = nil
@@ -278,7 +280,7 @@ def keyword_reply(channel_id, received_text)
 end
 	#關鍵字回復(貼圖
 def keyword_reply_sticker(channel_id, event)
-	return nil unless event['message']['type'] == 'sticker'
+	return nil unless event["message"]['type'] == 'sticker'
 	packageId = event['message']['packageId']
 	stickerId = event['message']['stickerId']
 	key = 'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
@@ -363,21 +365,35 @@ def keywords_include(channel_id, received_text)
 	end
 end
 	#查關鍵字(貼圖
-def keyword_include_sticker(channel_id, received_text)
+def keywords_sticker(channel_id, received_text)
 	return nil if received_text.nil?
-	if received_text == '關鍵字列表*貼圖'
-		keyword = KeywordMappingSticker.where(channel_id: channel_id).pluck(:keyword).to_a
-		message = KeywordMappingSticker.where(channel_id: channel_id).pluck(:message).to_a
-		editor = KeywordMappingSticker.where(channel_id: channel_id).pluck(:user).to_a
-		return "沒有關鍵字喔" if keyword == [] || message == []
+	return nil unless received_text == '關鍵字列表*貼圖'
+	keyword = KeywordMappingSticker.where(channel_id: channel_id).pluck(:keyword).to_a
+	message = KeywordMappingSticker.where(channel_id: channel_id).pluck(:message).to_a
+	editor = KeywordMappingSticker.where(channel_id: channel_id).pluck(:user).to_a
+	return "沒有關鍵字喔" if keyword == [] || message == []
 
-		reply_arr = Array.new
-		number = keyword.size.to_i
-		0.upto(number-1) do |i|
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
-		end
-		reply_arr.join("\n\n")
+	reply_arr = Array.new
+	number = keyword.size.to_i
+	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
+	reply_arr.join("\n\n")
+end
+	#查關鍵字（隨機
+def keywords_random(channel_id, received_text)
+	return nil if received_text.nil?
+	return nil unless received_text == '關鍵字列表＊隨機'
+	keyword = KeywordMappingRandom.where(channel_id: channel_id).pluck(:keyword).to_a
+	message = Array.new
+	KeywordMappingRandom.where(channel_id: channel_id).pluck(:message).each do |a|
+		message << a.join("\n")
 	end
+	editor = KeywordMappingRandom.where(channel_id: channel_id).pluck(:user).to_a
+	return "沒有關鍵字喔" if keyword == [] || message == []
+
+	reply_arr = Array.new
+	number = keyword.size.to_i
+	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
+	reply_arr.join("\n\n")
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a

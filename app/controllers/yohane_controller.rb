@@ -217,7 +217,7 @@ def learn_random(channel_id, received_text, event)
   seperater_index = content.index('=')
 
 	keyword = content[0..seperater_index-1]
-	list = content[seperater_index+1..-1].split(' ').to_a
+	list = content[seperater_index+1..-1].split(' ').to_a.to_s
 
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
@@ -386,7 +386,7 @@ def keywords_random(channel_id, received_text)
 	keyword = KeywordMappingRandom.where(channel_id: channel_id).pluck(:keyword).to_a
 	message = Array.new
 	KeywordMappingRandom.where(channel_id: channel_id).pluck(:message).each do |a|
-		message << a.to_a.join("\n")
+		message << a.gsub('\\' ).to_a.join("\n")
 	end
 	editor = KeywordMappingRandom.where(channel_id: channel_id).pluck(:user).to_a
 	return "沒有關鍵字喔" if keyword == [] || message == []

@@ -382,6 +382,7 @@ end
 def keywords_random(channel_id, received_text)
 	return nil if received_text.nil?
 	return nil unless received_text == '關鍵字列表＊隨機'
+	p '=============================='
 	keyword = KeywordMappingRandom.where(channel_id: channel_id).pluck(:keyword).to_a
 	message = Array.new
 	KeywordMappingRandom.where(channel_id: channel_id).pluck(:message).each do |a|

@@ -386,7 +386,7 @@ def keywords_random(channel_id, received_text)
 	keyword = KeywordMappingRandom.where(channel_id: channel_id).pluck(:keyword).to_a
 	message = Array.new
 	KeywordMappingRandom.where(channel_id: channel_id).pluck(:message).each do |a|
-		message << a.join("\n")
+		message << a.to_a.join("\n")
 	end
 	editor = KeywordMappingRandom.where(channel_id: channel_id).pluck(:user).to_a
 	return "沒有關鍵字喔" if keyword == [] || message == []

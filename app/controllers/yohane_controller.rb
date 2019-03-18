@@ -34,6 +34,8 @@ def webhook
 	reply_text = frogot_include(channel_id, received_text) if reply_text.nil?
 	#忘記說話（貼圖
 	reply_text = forgot_sticker(channel_id, received_text) if reply_text.nil?
+	#忘記說話（隨機
+	reply_text = forgot_random(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復
 	reply_text = keyword_reply(channel_id, received_text) if reply_text.nil?
 	#關鍵字回復(貼圖
@@ -95,6 +97,7 @@ def 指令列表
 新增「隨機」關鍵字：
 學說話*隨機=<關鍵字>=<回應1> <回應2>.......
 (回應之間有一個空格,將會從回應中隨機選取一個來回覆)
+
 刪除關鍵字：
 忘記=<關鍵字>
 
@@ -265,6 +268,18 @@ def forgot_sticker(channel_id, received_text)
 		'查無關鍵字'
 	else
 		KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all
+		'忘記啦！'
+	end
+end
+	#忘記說話（隨機
+def forgot_random(channel_id, received_text)
+	return nil if received_text.nil?
+	return nil unless received_text[0..5] == '忘記*隨機='
+	keyword = received_text[6..-1]
+	if KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).to_a == []
+		'查無關鍵字'
+	else
+		KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all
 		'忘記啦！'
 	end
 end

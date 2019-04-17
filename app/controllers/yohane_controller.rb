@@ -428,6 +428,7 @@ def follow(channel_id, received_text)
 	return nil
 	end
 end
+
 def wiki(received_text)
 	return nil if received_text.nil?
 	tag4 = received_text[-4..-1]

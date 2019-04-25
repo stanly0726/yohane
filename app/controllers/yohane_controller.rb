@@ -4,7 +4,7 @@ require 'uri'
 require 'tradsim'
 class YohaneController < ApplicationController
 	protect_from_forgery with: :null_session
-	
+
 def webhook
 	params['events'].each do |event|
 	#取得訊息

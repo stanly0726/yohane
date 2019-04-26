@@ -19,7 +19,7 @@ def webhook
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
-	#backdoor(received_text, channel_id, event)
+	backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -66,8 +66,6 @@ def webhook
 	reply_text = find_sticker(event) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
-	#半次元
-	reply_text = bcy(received_text) if reply_text.nil?
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
@@ -82,7 +80,39 @@ def webhook
 end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-
+	if received_text == "test"
+		reply_token = event['replyToken']
+		message = {
+  "type": "template",
+  "altText": "請至手機查看訊息",
+  "template": {
+    "type": "carousel",
+    "columns": [
+      {
+        "text": "description",
+        "actions": [
+          {
+            "type": "postback",
+            "label": "Buy",
+            "data": "action=buy&itemid=111"
+          },
+          {
+            "type": "postback",
+            "label": "Add to cart",
+            "data": "action=add&itemid=111"
+          },
+          {
+            "type": "uri",
+            "label": "View detail",
+            "uri": "http://example.com/page/111"
+          }
+        ]
+      }
+    ]
+  }
+}
+line.reply_message(reply_token, message)
+end
 end
 
 def 指令列表
@@ -561,24 +591,7 @@ def upload_to_imgur(event)
     end
 
 end
-   #半次元
-def bcy(received_text)
-	return nil if received_text.nil?
-  return nil unless received_text.include?("bcy.net")
-	url_encode = URI.encode(received_text)
-	uri = URI(url_encode)
-	res = Net::HTTP.get(uri).to_s.gsub('\\\\u002F','/').gsub('"','').gsub(']','')
 
-	start_index = res.enum_for(:scan, /original_path\\:\\https:\/\/img-bcy-qn.pstatp.com\/(coser|user|illust|drawer)\/\w*\/(item|post|daily)(\/web)?\/\w*\/\w*.(jpg|png|gif)/).map { Regexp.last_match.begin(0) }
-
-	end_index = res.enum_for(:scan, /\.jpg\\},{?\\/).map { Regexp.last_match.begin(0) }
-
-	arr = Array.new
-	(0..30).each do |i|
-		arr << res[start_index[i]+16..end_index[i]+3] unless start_index[i].nil?
-	end
-	arr.join("\n").to_s
-end
 	#查貼圖ID
 def find_sticker(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?

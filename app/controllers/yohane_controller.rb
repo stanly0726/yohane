@@ -7,14 +7,15 @@ class YohaneController < ApplicationController
 
 def webhook
 	params['events'].each do |event|
-	#取得訊息
-	received_text = get_received_text(event)
 	#取得reply token
 	reply_token = event['replyToken']
 	#取得頻道ID
 	channel_id = get_channel_id(event)
 	#紀錄頻道id
 	save_to_channel_id(channel_id)
+	if event['type'] == 'message'
+	#取得訊息
+	received_text = get_received_text(event)
 	#加入群組
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
@@ -66,6 +67,7 @@ def webhook
 	reply_text = find_sticker(event) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
+end
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)

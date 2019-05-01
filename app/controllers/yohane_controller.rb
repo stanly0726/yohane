@@ -129,26 +129,6 @@ def backdoor(received_text, channel_id, event)
         ]
       },
       {
-        "text": "查詢關鍵字類",
-        "actions": [
-          {
-            "type": "message",
-            "label": "一般關鍵字",
-            "text": "查詢一般關鍵字"
-          },
-          {
-            "type": "message",
-            "label": "「包含」關鍵字",
-            "text": "查詢「包含」關鍵字"
-          },
-          {
-            "type": "message",
-            "label": "「隨機」關鍵字",
-            "text": "查詢「隨機」關鍵字"
-          }
-        ]
-      },
-      {
         "text": "歐非鑑定",
         "actions": [
           {

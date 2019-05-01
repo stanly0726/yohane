@@ -94,17 +94,17 @@ def backdoor(received_text, channel_id, event)
           {
             "type": "message",
             "label": "一般關鍵字",
-            "text": "新增一般關鍵字"
+            "text": "新增一般關鍵字教學"
           },
           {
             "type": "message",
             "label": "「包含」關鍵字",
-            "text": "新增「包含」關鍵字"
+            "text": "新增「包含」關鍵字教學"
           },
           {
             "type": "message",
             "label": "「隨機」關鍵字",
-            "text": "新增「隨機」關鍵字"
+            "text": "新增「隨機」關鍵字教學"
           }
         ]
       },
@@ -114,17 +114,17 @@ def backdoor(received_text, channel_id, event)
           {
             "type": "message",
             "label": "一般關鍵字",
-            "text": "刪除一般關鍵字"
+            "text": "刪除一般關鍵字教學"
           },
           {
             "type": "message",
             "label": "「包含」關鍵字",
-            "text": "刪除「包含」關鍵字"
+            "text": "刪除「包含」關鍵字教學"
           },
           {
             "type": "message",
             "label": "「隨機」關鍵字",
-            "text": "刪除「隨機」關鍵字"
+            "text": "刪除「隨機」關鍵字教學"
           }
         ]
       },
@@ -134,17 +134,17 @@ def backdoor(received_text, channel_id, event)
           {
             "type": "message",
             "label": "抽",
-            "text": "抽"
+            "text": "抽教學"
           },
           {
             "type": "message",
-            "label": "",
-            "text": ""
+            "label": "抽",
+            "text": "抽教學"
           },
           {
             "type": "message",
-            "label": "",
-            "text": ""
+            "label": "抽",
+            "text": "抽教學"
           }
         ]
       }

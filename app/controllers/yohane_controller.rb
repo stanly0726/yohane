@@ -135,6 +135,16 @@ def backdoor(received_text, channel_id, event)
             "type": "message",
             "label": "抽",
             "text": "抽"
+          },
+          {
+            "type": "message",
+            "label": "",
+            "text": ""
+          },
+          {
+            "type": "message",
+            "label": "",
+            "text": ""
           }
         ]
       }

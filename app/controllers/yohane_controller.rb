@@ -13,7 +13,6 @@ def webhook
 	channel_id = get_channel_id(event)
 	#紀錄頻道id
 	save_to_channel_id(channel_id)
-	if event['type'] == 'message'
 	#取得訊息
 	received_text = get_received_text(event)
 	#加入群組
@@ -67,7 +66,6 @@ def webhook
 	reply_text = find_sticker(event) if reply_text.nil?
 	#樓下保持隊形
 	reply_text = follow(channel_id, received_text) if reply_text.nil?
-end
 	#記錄對話
 	save_to_received(channel_id, received_text)
 	save_to_reply(channel_id, reply_text)
@@ -91,22 +89,22 @@ def backdoor(received_text, channel_id, event)
     "type": "carousel",
     "columns": [
       {
-        "text": "description",
+        "text": "新增關鍵字類",
         "actions": [
           {
-            "type": "postback",
-            "label": "Buy",
-            "data": "action=buy&itemid=111"
+            "type": "message",
+            "label": "一般關鍵字",
+            "text": "一般關鍵字"
           },
           {
-            "type": "postback",
-            "label": "Add to cart",
-            "data": "action=add&itemid=111"
+            "type": "message",
+            "label": "包含」關鍵字",
+            "text": "包含」關鍵字"
           },
           {
-            "type": "uri",
-            "label": "View detail",
-            "uri": "http://example.com/page/111"
+            "type": "message",
+            "label": "「隨機」關鍵字",
+            "text": "「隨機」關鍵字"
           }
         ]
       }

@@ -94,17 +94,67 @@ def backdoor(received_text, channel_id, event)
           {
             "type": "message",
             "label": "一般關鍵字",
-            "text": "一般關鍵字"
+            "text": "新增一般關鍵字"
           },
           {
             "type": "message",
-            "label": "包含」關鍵字",
-            "text": "包含」關鍵字"
+            "label": "「包含」關鍵字",
+            "text": "新增「包含」關鍵字"
           },
           {
             "type": "message",
             "label": "「隨機」關鍵字",
-            "text": "「隨機」關鍵字"
+            "text": "新增「隨機」關鍵字"
+          }
+        ]
+      },
+      {
+        "text": "刪除關鍵字類",
+        "actions": [
+          {
+            "type": "message",
+            "label": "一般關鍵字",
+            "text": "刪除一般關鍵字"
+          },
+          {
+            "type": "message",
+            "label": "「包含」關鍵字",
+            "text": "刪除「包含」關鍵字"
+          },
+          {
+            "type": "message",
+            "label": "「隨機」關鍵字",
+            "text": "刪除「隨機」關鍵字"
+          }
+        ]
+      },
+      {
+        "text": "查詢關鍵字類",
+        "actions": [
+          {
+            "type": "message",
+            "label": "一般關鍵字",
+            "text": "查詢一般關鍵字"
+          },
+          {
+            "type": "message",
+            "label": "「包含」關鍵字",
+            "text": "查詢「包含」關鍵字"
+          },
+          {
+            "type": "message",
+            "label": "「隨機」關鍵字",
+            "text": "查詢「隨機」關鍵字"
+          }
+        ]
+      },
+      {
+        "text": "歐非鑑定",
+        "actions": [
+          {
+            "type": "message",
+            "label": "抽",
+            "text": "抽"
           }
         ]
       }

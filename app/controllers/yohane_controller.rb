@@ -170,7 +170,7 @@ def learn(channel_id, received_text, event)
 	p '========================'
 	p user_id
 	response = line.get_profile(user_id)
-	p responce.body
+	p response.body
 	user = JSON.parse(response.body)['displayName']
 	p user
 	p '========================'

@@ -426,23 +426,24 @@ end
 def command_tutorial(received_text)
 	return nil if received_text.nil
 	return nil unless received_text[0..1] == "||" && received_text[-2..-1] == "||"
+
 	case received_text
 	when "||新增一般關鍵字教學||"
 		'學說話=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送"你好"的時候，機器人做出"嗨"的回應，則使用\n說話=你好=嗨\n這條指令'
-	=begin
-	when "||新增「包含」關鍵字教學||"
+	#when "||新增「包含」關鍵字教學||"
 
-	when "||新增「隨機」關鍵字教學||"
+	#when "||新增「隨機」關鍵字教學||"
 
-	when "||刪除一般關鍵字教學||"
+	#when "||刪除一般關鍵字教學||"
 
-	when "||刪除「包含」關鍵字教學||"
+	#when "||刪除「包含」關鍵字教學||"
 
-	when "||刪除「隨機」關鍵字教學||"
+	#when "||刪除「隨機」關鍵字教學||"
 
-	when "||抽教學||"
-	=end
+	#when "||抽教學||"
+
 	end
+
 end
 	#查關鍵字
 def keywords(channel_id, received_text)

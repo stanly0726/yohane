@@ -167,9 +167,13 @@ def learn(channel_id, received_text, event)
 	message = received_text[semicolon_index+1..-1]
 
 	user_id = event['source']['userId']
+	p '========================'
+	p user_id
 	response = line.get_profile(user_id)
+	p responce.body
 	user = JSON.parse(response.body)['displayName']
-
+	p user
+	p '========================'
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 

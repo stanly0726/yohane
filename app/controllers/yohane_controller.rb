@@ -19,7 +19,7 @@ def webhook
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
-	backdoor(received_text, channel_id, event)
+	#backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -52,6 +52,8 @@ def webhook
 	reply_text = draw(received_text) if reply_text.nil?
 	#查指令
 	reply_text = command(received_text) if reply_text.nil?
+	#指令教學
+	reply_text = command_tutorial(received_text) if reply_text.nil?
 	#查關鍵字
 	reply_text = keywords(channel_id, received_text) if reply_text.nil?
 	#查關鍵字(include
@@ -80,79 +82,6 @@ def webhook
 end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
-	if received_text == "test"
-		reply_token = event['replyToken']
-		message = {
-  "type": "template",
-  "altText": "請至手機查看訊息",
-  "template": {
-    "type": "carousel",
-    "columns": [
-      {
-        "text": "新增關鍵字類",
-        "actions": [
-          {
-            "type": "message",
-            "label": "一般關鍵字",
-            "text": "新增一般關鍵字教學"
-          },
-          {
-            "type": "message",
-            "label": "「包含」關鍵字",
-            "text": "新增「包含」關鍵字教學"
-          },
-          {
-            "type": "message",
-            "label": "「隨機」關鍵字",
-            "text": "新增「隨機」關鍵字教學"
-          }
-        ]
-      },
-      {
-        "text": "刪除關鍵字類",
-        "actions": [
-          {
-            "type": "message",
-            "label": "一般關鍵字",
-            "text": "刪除一般關鍵字教學"
-          },
-          {
-            "type": "message",
-            "label": "「包含」關鍵字",
-            "text": "刪除「包含」關鍵字教學"
-          },
-          {
-            "type": "message",
-            "label": "「隨機」關鍵字",
-            "text": "刪除「隨機」關鍵字教學"
-          }
-        ]
-      },
-      {
-        "text": "歐非鑑定",
-        "actions": [
-          {
-            "type": "message",
-            "label": "抽",
-            "text": "抽教學"
-          },
-          {
-            "type": "message",
-            "label": "抽",
-            "text": "抽教學"
-          },
-          {
-            "type": "message",
-            "label": "抽",
-            "text": "抽教學"
-          }
-        ]
-      }
-    ]
-  }
-}
-line.reply_message(reply_token, message)
-end
 end
 
 def 指令列表
@@ -420,8 +349,99 @@ end
 	#查指令
 def command(received_text)
 	if received_text == "指令" || received_text == "指令列表"
-	return 指令列表
+		reply_token = event['replyToken']
+		message = {
+	"type": "template",
+	"altText": "請至手機查看訊息",
+	"template": {
+		"type": "carousel",
+		"columns": [
+			{
+				"text": "新增關鍵字類",
+				"actions": [
+					{
+						"type": "message",
+						"label": "一般關鍵字",
+						"text": "||新增一般關鍵字教學||"
+					},
+					{
+						"type": "message",
+						"label": "「包含」關鍵字",
+						"text": "||新增「包含」關鍵字教學||"
+					},
+					{
+						"type": "message",
+						"label": "「隨機」關鍵字",
+						"text": "||新增「隨機」關鍵字教學||"
+					}
+				]
+			},
+			{
+				"text": "刪除關鍵字類",
+				"actions": [
+					{
+						"type": "message",
+						"label": "一般關鍵字",
+						"text": "||刪除一般關鍵字教學||"
+					},
+					{
+						"type": "message",
+						"label": "「包含」關鍵字",
+						"text": "||刪除「包含」關鍵字教學||"
+					},
+					{
+						"type": "message",
+						"label": "「隨機」關鍵字",
+						"text": "||刪除「隨機」關鍵字教學||"
+					}
+				]
+			},
+			{
+				"text": "歐非鑑定",
+				"actions": [
+					{
+						"type": "message",
+						"label": "抽",
+						"text": "||抽教學||"
+					},
+					{
+						"type": "message",
+						"label": "抽",
+						"text": "||抽教學||"
+					},
+					{
+						"type": "message",
+						"label": "抽",
+						"text": "||抽教學||"
+					}
+				]
+			}
+		]
+	}
+	}
+	line.reply_message(reply_token, message)
 	else return nil
+	end
+end
+def command_tutorial(received_text)
+	return nil if received_text.nil
+	return nil unless received_text[0..1] == "||" && received_text[-2..-1] == "||"
+	case received_text
+	when "||新增一般關鍵字教學||"
+		'學說話=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送"你好"的時候，機器人做出"嗨"的回應，則使用\n說話=你好=嗨\n這條指令'
+	=begin
+	when "||新增「包含」關鍵字教學||"
+
+	when "||新增「隨機」關鍵字教學||"
+
+	when "||刪除一般關鍵字教學||"
+
+	when "||刪除「包含」關鍵字教學||"
+
+	when "||刪除「隨機」關鍵字教學||"
+
+	when "||抽教學||"
+	=end
 	end
 end
 	#查關鍵字
@@ -606,6 +626,7 @@ def nhentai(received_text)
 
 	"搜尋頁面：\n".force_encoding("UTF-8") + url_encode.to_s.force_encoding("UTF-8") + "\n\n" + reply_arr.join("\n").to_s.force_encoding("UTF-8")
 end
+
 def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?

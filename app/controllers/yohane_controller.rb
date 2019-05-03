@@ -51,7 +51,7 @@ def webhook
 	#抽
 	reply_text = draw(received_text) if reply_text.nil?
 	#查指令
-	reply_text = command(received_text) if reply_text.nil?
+	reply_text = command(received_text, reply_token) if reply_text.nil?
 	#指令教學
 	reply_text = command_tutorial(received_text) if reply_text.nil?
 	#查關鍵字
@@ -347,12 +347,11 @@ def switch(channel_id, received_text)
 	'ok'
 end
 	#查指令
-def command(received_text)
+def command(received_text, reply_token)
 	if received_text == "指令" || received_text == "指令列表"
-		reply_token = event['replyToken']
 		message = {
 	"type": "template",
-	"altText": "請至手機查看訊息",
+	"altText": "carousel template",
 	"template": {
 		"type": "carousel",
 		"columns": [

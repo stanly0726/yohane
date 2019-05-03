@@ -424,7 +424,7 @@ def command(received_text)
 	end
 end
 def command_tutorial(received_text)
-	return nil if received_text.nil
+	return nil if received_text.nil?
 	return nil unless received_text[0..1] == "||" && received_text[-2..-1] == "||"
 
 	case received_text

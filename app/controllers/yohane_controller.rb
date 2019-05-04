@@ -169,6 +169,7 @@ def learn(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
+	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
 	p '========================'
 	p user_id
 	p response.body

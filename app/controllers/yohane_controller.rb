@@ -169,7 +169,6 @@ def learn(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-	user = " " if response.body == '{\"message\":\"Not found\"}'
 	p '========================'
 	p user_id
 	p response.body

@@ -83,7 +83,9 @@ end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 end
-
+def twitter_subscribe
+	p params
+end
 def 指令列表
 "指令列表；
 

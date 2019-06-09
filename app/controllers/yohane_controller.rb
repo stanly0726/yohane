@@ -85,6 +85,7 @@ def backdoor(received_text, channel_id, event)
 end
 def twitter_subscribe
 	p params
+	head :ok
 end
 def 指令列表
 "指令列表；

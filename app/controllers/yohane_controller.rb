@@ -435,7 +435,7 @@ def command_tutorial(received_text)
 	when "||新增一般關鍵字教學||"
 		"學說話=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送「你好」的時候，機器人做出「嗨」的回應，則使用\n\n學說話=你好=嗨\n\n這條指令"
 	when "||新增「包含」關鍵字教學||"
-		"學說話*=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送包含「你好」的訊息（例如「你好阿」「你好帥」「哈囉你好嗎」），機器人做出「嗨」的回應，則使用\n\n學說話*=你好=嗨\n\n這條指令，請注意指令中的星號是半形的，手機使用者請先切換到英文輸入法後在輸入星號"
+		"學說話*=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送包含「你好」的訊息（例如「你好阿」「你好帥」「哈囉你好嗎」），機器人做出「嗨」的回應，則使用\n\n學說話*=你好=嗨\n\n請注意指令中的星號是半形的，手機使用者請先切換到英文輸入法後在輸入星號"
 	when "||新增「隨機」關鍵字教學||"
 
 	when "||刪除一般關鍵字教學||"
@@ -532,7 +532,7 @@ def wiki(received_text)
 	return unless tag4 =='是什麼?'||tag3 == '是啥?'||tag3 == '是什麼'||tag2 == '是啥'
 	index_is = received_text.index('是')
 	keyword = received_text[0...index_is]
-	return nil if keyword == "那"
+	return nil if keyword == "那" || keyword == "這"
 	url = 'https://zh.wikipedia.org/w/api.php?action=opensearch&search='+keyword.to_s+'&limit=1&utf8'
 	url_encode = URI.encode(url)
 	uri = URI(url_encode)

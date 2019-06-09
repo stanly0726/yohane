@@ -96,7 +96,7 @@ def twitter_subscribe
 	number = client.status(id).media.count
 	(0...number).each do |i|
 	p '========================'
-	p client.status(id).media[i].media_url
+	p client.status(id).media[i].media_url.URI
 	p '========================'
 	end
 	head :ok

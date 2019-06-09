@@ -92,11 +92,13 @@ def twitter_subscribe
   config.access_token        = "800214511110090752-ucDtWwyOlS9dCvhdL5bstdOf4DOE9nk"
   config.access_token_secret = "p2pZQXPMy53JogiOQlZkMEkKsWsLEyC7vB3znLNoQDz50"
 	end
-	p '========================='
-	p id
-	p '========================='
-	p client.status(id).media.count
-	p '========================='
+
+	number = client.status(id).media.count
+	(0...number).each do |i|
+	p '========================'
+	p client.status(id).media[i]
+	p '========================'
+	end
 	head :ok
 end
 

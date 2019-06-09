@@ -637,26 +637,27 @@ def upload_to_imgur(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 	messageId = event['message']['id']
 	response = line.get_message_content(messageId)
-	tf = response.body.force_encoding("UTF-8")
-
-	 url = URI("https://api.imgur.com/3/image")
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    request = Net::HTTP::Post.new(url)
-    request["authorization"] = 'Client-ID e0ee93758caf3d2'
-
-    request.set_form_data({"image" => tf, "album" => "fItD7OI9i3KwnQ5"})
-    response = http.request(request)
-
-    json = JSON.parse(response.read_body)
-    begin
-      json['data']['link'].gsub("http:","https:")
-    rescue
-      nil
-    end
-
+	image = response.body.force_encoding("UTF-8")
+	get_image_url(image)
 end
 
+def get_image_url(image)
+	url = URI("https://api.imgur.com/3/image")
+	 http = Net::HTTP.new(url.host, url.port)
+	 http.use_ssl = true
+	 request = Net::HTTP::Post.new(url)
+	 request["authorization"] = 'Client-ID e0ee93758caf3d2'
+
+	 request.set_form_data({"image" => image, "album" => "fItD7OI9i3KwnQ5"})
+	 response = http.request(request)
+
+	 json = JSON.parse(response.read_body)
+	 begin
+		 json['data']['link'].gsub("http:","https:")
+	 rescue
+		 nil
+	 end
+end
 	#查貼圖ID
 def find_sticker(event)
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?

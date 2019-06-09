@@ -19,6 +19,7 @@ group :production do
 end
 gem 'google_search', '~> 1.2'
 gem 'tradsim', '~> 0.5.0'
+gem 'twitter', '~> 6.2'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

@@ -83,12 +83,23 @@ end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
 end
+
 def twitter_subscribe
-	p '========================'
-	p params['url']
-	p '========================'
+	id = params['url'].gsub(/https:\/\/twitter.com\/\w*\/status\//,'')
+	client = Twitter::REST::Client.new do |config|
+  config.consumer_key        = "rnEmiQXWe7Nt0OKxnZbGSGSbr"
+  config.consumer_secret     = "eaBPl2gnzZKffKTx1AdvBlLGJ9EUht7UcmpuI67xl9h6hZK5iG"
+  config.access_token        = "800214511110090752-ucDtWwyOlS9dCvhdL5bstdOf4DOE9nk"
+  config.access_token_secret = "p2pZQXPMy53JogiOQlZkMEkKsWsLEyC7vB3znLNoQDz50"
+	end
+	p '========================='
+	p id
+	p '========================='
+	p client.status(id)
+	p '========================='
 	head :ok
 end
+
 def 指令列表
 "指令列表；
 

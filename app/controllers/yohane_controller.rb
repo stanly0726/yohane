@@ -95,7 +95,7 @@ def twitter_subscribe
 	p '========================='
 	p id
 	p '========================='
-	p client.status(id).attrs
+	p client.status(id).media
 	p '========================='
 	head :ok
 end

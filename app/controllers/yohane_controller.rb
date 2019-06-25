@@ -188,11 +188,7 @@ def learn(channel_id, received_text, event)
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
 	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
-	p '========================'
-	p user_id
-	p response.body
-	p user
-	p '========================'
+
 	KeywordMapping.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMapping.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMapping.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 
@@ -214,7 +210,8 @@ def learn_include(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-
+	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
+	
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 	'ok 記住囉！'
@@ -232,7 +229,8 @@ def learn_sticker(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-
+	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
+	
 	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
 
@@ -252,7 +250,8 @@ def learn_random(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-
+	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
+	
 	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
 	'要讓我決定是吧！'

@@ -479,6 +479,10 @@ def keywords(channel_id, received_text)
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
+		case editor[i]
+		when nil
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
+		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 		end
 		reply_arr.join("\n\n")
@@ -498,6 +502,10 @@ def keywords_include(channel_id, received_text)
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
+		case editor[i]
+		when nil
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
+		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 		end
 		reply_arr.join("\n\n")
@@ -514,7 +522,13 @@ def keywords_sticker(channel_id, received_text)
 
 	reply_arr = Array.new
 	number = keyword.size.to_i
-	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
+	0.upto(number-1) do |i|
+	case editor[i]
+	when nil
+	reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
+	else
+	reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
+	end
 	reply_arr.join("\n\n")
 end
 	#查關鍵字（隨機
@@ -528,9 +542,15 @@ def keywords_random(channel_id, received_text)
 	return "沒有關鍵字喔" if keyword == [] || message == []
 
 	reply_arr = Array.new
-	number = keyword.size.to_i
-	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
-	reply_arr.join("\n\n")
+		number = keyword.size.to_i
+		0.upto(number-1) do |i|
+		case editor[i]
+		when nil
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
+		else
+		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
+		end
+		reply_arr.join("\n\n")
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a

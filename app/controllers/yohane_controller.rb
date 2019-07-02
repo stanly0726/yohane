@@ -484,6 +484,7 @@ def keywords(channel_id, received_text)
 		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 		end
+		end
 		reply_arr.join("\n\n")
 	end
 
@@ -506,6 +507,7 @@ def keywords_include(channel_id, received_text)
 		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 		end
+		end
 		reply_arr.join("\n\n")
 	end
 end
@@ -526,6 +528,7 @@ def keywords_sticker(channel_id, received_text)
 	else
 	reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
 	end
+	end
 	reply_arr.join("\n\n")
 end
 	#查關鍵字（隨機
@@ -545,6 +548,7 @@ def keywords_random(channel_id, received_text)
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
 		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
+		end
 		end
 		reply_arr.join("\n\n")
 end

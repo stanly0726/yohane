@@ -95,9 +95,7 @@ def twitter_subscribe
 
 	number = client.status(id).media.count
 	(0...number).each do |i|
-	p '========================'
-	p client.status(id).media[i].media_url.to_s
-	p '========================'
+	 client.status(id).media[i].media_url.to_s
 	end
 	head :ok
 end
@@ -106,26 +104,26 @@ def 指令列表
 "指令列表；
 
 新增關鍵字：
-學說話=<關鍵字>=<回應>
+學說話=關鍵字=回應
 
 新增「包含」關鍵字：
-學說話*=<關鍵字>=<回應>
+學說話*=關鍵字=回應
 
 新增「隨機」關鍵字：
-學說話*隨機=<關鍵字>=<回應1> <回應2>.......
+學說話*隨機=關鍵字=回應1 回應2.......
 (回應之間有一個空格,將會從回應中隨機選取一個來回覆)
 
 刪除關鍵字：
-忘記=<關鍵字>
+忘記=關鍵字
 
 刪除「包含」關鍵字：
-忘記*=<關鍵字>
+忘記*=關鍵字
 
 開啟或關閉「使用其他聊天室設定的關鍵字」功能：
-全域關鍵字=<開/關>
+全域關鍵字=開/關
 
 抽獎：
-抽*<數量>
+抽*數量
 
 查詢關鍵字：
 關鍵字列表
@@ -210,8 +208,7 @@ def learn_include(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
-	
+
 	KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingInclude.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingInclude.create(channel_id: channel_id, keyword: keyword, message: message, user_id: user)
 	'ok 記住囉！'
@@ -229,8 +226,7 @@ def learn_sticker(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
-	
+
 	KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingSticker.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingSticker.create(channel_id: channel_id, keyword: keyword, message: message, user: user)
 
@@ -250,8 +246,7 @@ def learn_random(channel_id, received_text, event)
 	user_id = event['source']['userId']
 	response = line.get_profile(user_id)
 	user = JSON.parse(response.body)['displayName']
-	user = "用戶未加本機為好友,無法取得暱稱" if user.nil?
-	
+
 	KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).destroy_all unless KeywordMappingRandom.where(channel_id: channel_id, keyword: keyword).nil?
 	KeywordMappingRandom.create(channel_id: channel_id, keyword: keyword, message: list, user: user)
 	'要讓我決定是吧！'
@@ -450,19 +445,19 @@ def command_tutorial(received_text)
 
 	case received_text
 	when "||新增一般關鍵字教學||"
-		"學說話=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送「你好」的時候，機器人做出「嗨」的回應，則使用\n\n學說話=你好=嗨\n\n這條指令"
+		"學說話=關鍵字=回應\n\n將關鍵字和回應替換成想要的內容\n\n例如我想要當有人傳送「你好」的時候，機器人做出「嗨」的回應，則使用\n\n學說話=你好=嗨\n\n這條指令"
 	when "||新增「包含」關鍵字教學||"
-		"學說話*=<關鍵字>=<回應>\n\n將尖括號中的文字(包含尖括號本身)替換成想要的內容\n\n例如我想要當有人傳送包含「你好」的訊息（例如「你好阿」「你好帥」「哈囉你好嗎」），機器人做出「嗨」的回應，則使用\n\n學說話*=你好=嗨\n\n請注意指令中的星號是半形的，手機使用者請先切換到英文輸入法後在輸入星號"
+		"學說話*=關鍵字=回應\n\n將關鍵字和回應替換成想要的內容\n\n例如我想要當有人傳送包含「你好」的訊息（例如「你好阿」「你好帥」「哈囉你好嗎」），機器人做出「嗨」的回應，則使用\n\n學說話*=你好=嗨\n\n請注意指令中的星號是半形的，手機使用者請先切換到英文輸入法後在輸入星號"
 	when "||新增「隨機」關鍵字教學||"
-
+		"作者很懶還沒寫"
 	when "||刪除一般關鍵字教學||"
-
+		"作者很懶還沒寫"
 	when "||刪除「包含」關鍵字教學||"
-
+		"作者很懶還沒寫"
 	when "||刪除「隨機」關鍵字教學||"
-
+		"作者很懶還沒寫"
 	when "||抽教學||"
-
+		"作者很懶還沒寫"
 	end
 
 end
@@ -479,11 +474,7 @@ def keywords(channel_id, received_text)
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
-		if editor[i].nil?
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
-		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
-		end
 		end
 		reply_arr.join("\n\n")
 	end
@@ -502,11 +493,7 @@ def keywords_include(channel_id, received_text)
 		reply_arr = Array.new
 		number = keyword.size.to_i
 		0.upto(number-1) do |i|
-		if editor[i].nil?
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
-		else
 		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
-		end
 		end
 		reply_arr.join("\n\n")
 	end
@@ -522,13 +509,7 @@ def keywords_sticker(channel_id, received_text)
 
 	reply_arr = Array.new
 	number = keyword.size.to_i
-	0.upto(number-1) do |i|
-	if editor[i].nil?
-	reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
-	else
-	reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
-	end
-	end
+	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
 	reply_arr.join("\n\n")
 end
 	#查關鍵字（隨機
@@ -542,15 +523,9 @@ def keywords_random(channel_id, received_text)
 	return "沒有關鍵字喔" if keyword == [] || message == []
 
 	reply_arr = Array.new
-		number = keyword.size.to_i
-		0.upto(number-1) do |i|
-		if editor[i].nil?
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：用戶未加本機為好友,無法取得暱稱"
-		else
-		reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i]
-		end
-		end
-		reply_arr.join("\n\n")
+	number = keyword.size.to_i
+	0.upto(number-1) { |i| reply_arr << keyword[i].to_s + "：\n" + message[i].to_s + "\nBy：" + editor[i] }
+	reply_arr.join("\n\n")
 end
 def follow(channel_id, received_text)
 	received = 	Received.where(channel_id: channel_id).order(:created_at).pluck(:text).to_a
@@ -673,6 +648,9 @@ def upload_to_imgur(event)
 	return nil unless event['message']['type'] == 'image'
 	return nil unless event['source']['groupId'].nil? && event['source']['roomId'].nil?
 	messageId = event['message']['id']
+	p "===================="
+	p messageId
+	p "===================="
 	response = line.get_message_content(messageId)
 	image = response.body.force_encoding("UTF-8")
 	get_image_url(image)
@@ -680,20 +658,20 @@ end
 
 def get_image_url(image)
 	url = URI("https://api.imgur.com/3/image")
-	 http = Net::HTTP.new(url.host, url.port)
-	 http.use_ssl = true
-	 request = Net::HTTP::Post.new(url)
-	 request["authorization"] = 'Client-ID e0ee93758caf3d2'
+	http = Net::HTTP.new(url.host, url.port)
+	http.use_ssl = true
+ 	request = Net::HTTP::Post.new(url)
+	request["authorization"] = 'Client-ID e0ee93758caf3d2'
 
-	 request.set_form_data({"image" => image, "album" => "fItD7OI9i3KwnQ5"})
-	 response = http.request(request)
+	request.set_form_data({"image" => image, "album" => "fItD7OI9i3KwnQ5"})
+	response = http.request(request)
 
-	 json = JSON.parse(response.read_body)
-	 begin
-		 json['data']['link'].gsub("http:","https:")
-	 rescue
-		 nil
-	 end
+	json = JSON.parse(response.read_body)
+	begin
+		json['data']['link'].gsub("http:","https:")
+	rescue
+		nil
+	end
 end
 	#查貼圖ID
 def find_sticker(event)

@@ -557,7 +557,9 @@ def wiki(received_text)
 	return nil if start_index.nil?||end_index.nil?||url_end_index.nil?
 	page_url = URI.decode(res[end_index+5..url_end_index].to_s)
 	content = res[start_index..end_index-1].to_s.gsub('\"','"')
-	
+	p '================'
+	p content
+	p '================'
 	case content
 	when nil
 	result = page_url

@@ -19,7 +19,7 @@ def webhook
 	reply_text = join(event)
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
-	#backdoor(received_text, channel_id, event)
+	backdoor(received_text, channel_id, event)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -82,6 +82,10 @@ def webhook
 end
 def backdoor(received_text, channel_id, event)
 	return nil unless channel_id == 'U693cf83bb807d39abb88e724d8afa002'
+	p "======================"
+	p event
+	p "======================"
+
 end
 
 def twitter_subscribe

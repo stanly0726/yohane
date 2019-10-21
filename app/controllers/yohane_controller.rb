@@ -590,9 +590,9 @@ def draw(received_text)
 
 	result = rand(1..100)
 
-	ur += 1 if (95..100).include?(result)
+	ur += 1 if (96..100).include?(result)
 	#ssr += 1 if (96..99).include?(result)
-	sr += 1 if (85..95).include?(result)
+	sr += 1 if (86..95).include?(result)
 	r += 1 if (1..85).include?(result)
 	times += 1
 	end

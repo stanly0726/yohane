@@ -582,7 +582,7 @@ def draw(received_text)
 
 	times = 0
 	ur = 0
-	ssr = 0
+	#ssr = 0
 	sr = 0
 	r = 0
 
@@ -590,16 +590,16 @@ def draw(received_text)
 
 	result = rand(1..100)
 
-	ur += 1 if result == 100
-	ssr += 1 if (96..99).include?(result)
-	sr += 1 if (81..95).include?(result)
-	r += 1 if (1..80).include?(result)
+	ur += 1 if (95..100).include?(result)
+	#ssr += 1 if (96..99).include?(result)
+	sr += 1 if (85..95).include?(result)
+	r += 1 if (1..85).include?(result)
 	times += 1
 	end
 
 	arr = Array.new
 	arr << 'UR：'+ur.to_s unless ur == 0
-	arr << 'SSR：'+ssr.to_s unless ssr == 0
+	#arr << 'SSR：'+ssr.to_s unless ssr == 0
 	arr << 'SR：'+sr.to_s unless sr == 0
 	arr << 'R：'+r.to_s unless r == 0
 	arr.join("\n")

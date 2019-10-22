@@ -585,6 +585,7 @@ def draw(received_text)
 	number = 10000 if number > 10000
 
 	times = 0
+	bigur = 0
 	ur = 0
 	#ssr = 0
 	sr = 0
@@ -592,17 +593,19 @@ def draw(received_text)
 
 	until times == number do
 
-	result = rand(1..100)
+	result = rand(1..200)
 
-	ur += 1 if (96..100).include?(result)
+	bigur += 1 if result = 200
+	ur += 1 if (191..199).include?(result)
 	#ssr += 1 if (96..99).include?(result)
-	sr += 1 if (86..95).include?(result)
-	r += 1 if (1..85).include?(result)
+	sr += 1 if (171..190).include?(result)
+	r += 1 if (1..170).include?(result)
 	times += 1
 	end
 
 	arr = Array.new
-	arr << 'UR：'+ur.to_s unless ur == 0
+	arr << 'UR：'+bigur.to_s unless bigur == 0
+	arr << 'ur：'+ur.to_s unless ur == 0
 	#arr << 'SSR：'+ssr.to_s unless ssr == 0
 	arr << 'SR：'+sr.to_s unless sr == 0
 	arr << 'R：'+r.to_s unless r == 0

@@ -595,7 +595,7 @@ def draw(received_text)
 
 	result = rand(1..200)
 
-	UR += 1 if 200.include?(result)
+	UR += 1 if result = 200
 	ur += 1 if (191..199).include?(result)
 	#ssr += 1 if (96..99).include?(result)
 	sr += 1 if (171..190).include?(result)

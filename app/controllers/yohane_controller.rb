@@ -574,6 +574,7 @@ end
 def draw(received_text)
 	return nil if received_text.nil?
 	received_text = "抽*1" if received_text == "抽"
+	received_text = "抽*35" if received_text == "抽*一單"
 	if received_text[0..1] == '抽*'
 	number = received_text[2..-1].to_i
 	else
@@ -595,7 +596,7 @@ def draw(received_text)
 
 	result = rand(1..200)
 
-	bigur += 1 if (200..200).include?(result)
+	bigur += 1 if result == 200
 	ur += 1 if (191..199).include?(result)
 	#ssr += 1 if (96..99).include?(result)
 	sr += 1 if (171..190).include?(result)

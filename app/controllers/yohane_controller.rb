@@ -20,6 +20,8 @@ def webhook
 	reply_text = upload_to_imgur(event) if reply_text.nil?
 	#測試後門
 	backdoor(received_text, channel_id, event)
+	#一日一愛香
+	reply_text = aika(received_text)
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include
@@ -697,7 +699,12 @@ def find_sticker(event)
 	stickerId = event['message']['stickerId']
 	'packageId：' + packageId + "\n" + 'stickerId：' + stickerId
 end
-
+    #一日一愛香
+def aika(received_text)
+    return nil unless received_text=='一日一愛香'
+    url = URI("https://ichinichiichiaika.herokuapp.com")
+    Net::HTTP.get(url)
+end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)
 	return nil if @previewImageUrl.nil? || @originalContentUrl.nil?

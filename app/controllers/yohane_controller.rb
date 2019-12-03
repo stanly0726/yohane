@@ -702,8 +702,8 @@ end
     #一日一愛香
 def aika(received_text)
     return nil unless received_text=='一日一愛香'
-    url = URI("https://ichinichiichiaika.herokuapp.com")
-    Net::HTTP.get(url)
+    url = URI("https://ichinichiichiaika.herokuapp.com/line")
+    Net::HTTP.get(url).to_s.force_encoding("UTF-8")
 end
 	#傳送圖片到line
 def reply_image_to_line(reply_token)

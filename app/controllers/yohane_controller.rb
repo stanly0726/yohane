@@ -21,7 +21,7 @@ def webhook
 	#測試後門
 	backdoor(received_text, channel_id, event)
 	#一日一愛香
-	reply_text = aika(received_text)
+	reply_text = aika(received_text) if reply_text.nil?
 	#學說話
 	reply_text = learn(channel_id, received_text, event) if reply_text.nil?
 	#學說話(include

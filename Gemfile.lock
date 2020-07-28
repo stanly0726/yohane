@@ -89,7 +89,7 @@ GEM
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
-    json (2.2.0)
+    json (2.3.1)
     line-bot-api (1.7.0)
     loofah (2.2.3)
       crass (~> 1.0.2)
